@@ -119,7 +119,13 @@ img{
     justify-content:center;
     align-items:center;
 
-    background:#0d0808;
+    background:
+        radial-gradient(
+            circle,
+            rgba(216,179,106,.12),
+            transparent 45%
+        ),
+        #0d0808;
 
     overflow:hidden;
 
@@ -134,8 +140,6 @@ img{
     pointer-events:none;
 }
 
-/* إطار مضيء */
-
 .opening-frame{
     position:absolute;
     inset:20px;
@@ -147,14 +151,9 @@ img{
         0 0 40px rgba(216,179,106,.08);
 
     animation:frameGlow 4s ease-in-out infinite alternate;
-
-    z-index:3;
-
-    pointer-events:none;
 }
 
 @keyframes frameGlow{
-
     from{
         box-shadow:
             inset 0 0 40px rgba(216,179,106,.06),
@@ -166,130 +165,99 @@ img{
             inset 0 0 80px rgba(216,179,106,.18),
             0 0 45px rgba(216,179,106,.13);
     }
-
 }
 
-/* =========================================================
-   الرسالة — ملء الشاشة بالكامل
-========================================================= */
+/* الرسالة */
 
 .envelope{
-    position:absolute;
+    position:relative;
 
-    inset:0;
-
-    width:100%;
-    height:100%;
+    width:min(430px,85vw);
 
     cursor:pointer;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    overflow:hidden;
-
     animation:
+        envelopeFloat 5s ease-in-out infinite,
         envelopeGlow 3.5s ease-in-out infinite alternate;
 
-    filter:
-        drop-shadow(
-            0 25px 45px rgba(0,0,0,.6)
-        );
+    filter:drop-shadow(
+        0 25px 45px rgba(0,0,0,.6)
+    );
+}
 
-    z-index:1;
+@keyframes envelopeFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-13px);
+    }
 }
 
 @keyframes envelopeGlow{
 
     from{
         filter:
-            drop-shadow(
-                0 20px 40px rgba(0,0,0,.6)
-            )
-            drop-shadow(
-                0 0 0 rgba(216,179,106,0)
-            );
+            drop-shadow(0 20px 40px rgba(0,0,0,.6))
+            drop-shadow(0 0 0 rgba(216,179,106,0));
     }
 
     to{
         filter:
-            drop-shadow(
-                0 20px 40px rgba(0,0,0,.6)
-            )
-            drop-shadow(
-                0 0 25px rgba(216,179,106,.25)
-            );
+            drop-shadow(0 20px 40px rgba(0,0,0,.6))
+            drop-shadow(0 0 25px rgba(216,179,106,.25));
     }
-
 }
 
 .envelope img{
-
     display:block;
-
     width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    border-radius:0;
-
+    border-radius:12px;
 }
 
-/* =========================================================
-   ضوء يمر ببطء على الرسالة
-========================================================= */
+/* ضوء يمر على الرسالة */
 
 .envelope::after{
-
     content:"";
 
     position:absolute;
-
     top:0;
-    left:-120%;
+    left:-100%;
 
-    width:45%;
+    width:50%;
     height:100%;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.20),
+            rgba(255,255,255,.22),
             transparent
         );
 
     transform:skewX(-20deg);
 
-    animation:
-        shine 6s ease-in-out infinite;
-
-    pointer-events:none;
-
+    animation:shine 5s ease-in-out infinite;
 }
 
 @keyframes shine{
 
     0%,65%{
-        left:-120%;
+        left:-100%;
     }
 
     100%{
         left:160%;
     }
-
 }
 
 .opening-text{
-
     position:absolute;
-
     bottom:8%;
 
     left:50%;
-
     transform:translateX(-50%);
 
     white-space:nowrap;
@@ -303,9 +271,6 @@ img{
 
     animation:
         textPulse 2.5s ease-in-out infinite;
-
-    z-index:5;
-
 }
 
 @keyframes textPulse{
@@ -317,7 +282,6 @@ img{
     50%{
         opacity:1;
     }
-
 }
 
 /* =========================================================
@@ -335,7 +299,6 @@ img{
 ========================================================= */
 
 .section{
-
     position:relative;
 
     width:100%;
@@ -347,7 +310,6 @@ img{
     display:flex;
     justify-content:center;
     align-items:center;
-
 }
 
 .section + .section{
@@ -359,7 +321,6 @@ img{
 ========================================================= */
 
 .glass{
-
     position:relative;
 
     width:min(900px,100%);
@@ -390,18 +351,14 @@ img{
     text-align:center;
 
     overflow:hidden;
-
 }
 
 .glass::before{
-
     content:"";
 
     position:absolute;
-
     top:0;
     left:0;
-
     width:100%;
     height:1px;
 
@@ -414,7 +371,6 @@ img{
         );
 
     opacity:.6;
-
 }
 
 /* =========================================================
@@ -422,17 +378,13 @@ img{
 ========================================================= */
 
 .ornament{
-
     color:var(--gold-light);
-
     font-size:22px;
-
     letter-spacing:10px;
 
     margin-bottom:15px;
 
     opacity:.85;
-
 }
 
 /* =========================================================
@@ -440,7 +392,6 @@ img{
 ========================================================= */
 
 .bismillah{
-
     font-family:"Amiri",serif;
 
     font-size:
@@ -452,11 +403,9 @@ img{
 
     text-shadow:
         0 3px 18px rgba(0,0,0,.4);
-
 }
 
 .quran{
-
     font-family:"Amiri",serif;
 
     font-size:
@@ -472,11 +421,9 @@ img{
 
     text-shadow:
         0 2px 15px rgba(0,0,0,.5);
-
 }
 
 .welcome{
-
     margin-top:20px;
 
     color:#eadcc8;
@@ -485,11 +432,9 @@ img{
 
     font-size:
         clamp(.95rem,2.3vw,1.15rem);
-
 }
 
 .names{
-
     font-family:"Amiri",serif;
 
     font-size:
@@ -504,17 +449,14 @@ img{
     text-shadow:
         0 3px 20px rgba(0,0,0,.5),
         0 0 25px rgba(216,179,106,.15);
-
 }
 
 .names span{
-
     color:var(--gold-light);
 
     font-size:.65em;
 
     margin:0 8px;
-
 }
 
 /* =========================================================
@@ -522,7 +464,6 @@ img{
 ========================================================= */
 
 .section-title{
-
     font-family:"Amiri",serif;
 
     color:var(--cream);
@@ -531,11 +472,9 @@ img{
         clamp(2.2rem,5vw,3.5rem);
 
     margin-bottom:10px;
-
 }
 
 .date-image{
-
     width:100%;
 
     max-height:430px;
@@ -553,11 +492,9 @@ img{
 
     box-shadow:
         0 20px 50px rgba(0,0,0,.35);
-
 }
 
 .date-text{
-
     color:var(--gold-light);
 
     font-weight:700;
@@ -565,7 +502,6 @@ img{
     font-size:1.15rem;
 
     margin-bottom:25px;
-
 }
 
 /* =========================================================
@@ -573,7 +509,6 @@ img{
 ========================================================= */
 
 .countdown{
-
     display:grid;
 
     grid-template-columns:
@@ -582,11 +517,9 @@ img{
     gap:9px;
 
     width:100%;
-
 }
 
 .counter{
-
     padding:16px 7px;
 
     border-radius:18px;
@@ -598,11 +531,9 @@ img{
         1px solid rgba(255,235,190,.2);
 
     backdrop-filter:blur(10px);
-
 }
 
 .counter strong{
-
     display:block;
 
     color:#fff;
@@ -611,11 +542,9 @@ img{
         clamp(1.7rem,5vw,2.8rem);
 
     line-height:1;
-
 }
 
 .counter span{
-
     display:block;
 
     color:#ddcdb4;
@@ -623,7 +552,6 @@ img{
     font-size:.75rem;
 
     margin-top:8px;
-
 }
 
 /* =========================================================
@@ -631,7 +559,6 @@ img{
 ========================================================= */
 
 .venue-image{
-
     width:100%;
 
     max-height:450px;
@@ -647,11 +574,9 @@ img{
 
     box-shadow:
         0 20px 50px rgba(0,0,0,.4);
-
 }
 
 .venue-name{
-
     font-family:"Amiri",serif;
 
     color:#fff8ed;
@@ -660,19 +585,15 @@ img{
         clamp(2rem,5vw,3rem);
 
     margin-bottom:4px;
-
 }
 
 .venue-address{
-
     color:#d9cbb8;
 
     margin-bottom:20px;
-
 }
 
 .map-button{
-
     display:inline-flex;
 
     justify-content:center;
@@ -695,21 +616,16 @@ img{
 
     font-weight:800;
 
-    text-decoration:none;
-
     transition:
         transform .25s,
         box-shadow .25s;
-
 }
 
 .map-button:hover{
-
     transform:translateY(-3px);
 
     box-shadow:
         0 12px 30px rgba(0,0,0,.35);
-
 }
 
 /* =========================================================
@@ -717,24 +633,23 @@ img{
 ========================================================= */
 
 .gallery-wrapper{
-
     overflow:hidden;
 
     width:100%;
 
     position:relative;
 
+    touch-action:pan-y;
 }
 
 .gallery{
-
     display:flex;
 
     gap:12px;
 
     overflow-x:auto;
 
-    scroll-behavior:smooth;
+    scroll-behavior:auto;
 
     scrollbar-width:none;
 
@@ -742,14 +657,26 @@ img{
 
     padding:8px 2px 15px;
 
+    user-select:none;
+
+    -webkit-user-select:none;
+
+    -webkit-overflow-scrolling:touch;
+
+    touch-action:pan-y;
 }
 
 .gallery::-webkit-scrollbar{
     display:none;
 }
 
-.gallery img{
+.gallery.dragging{
+    cursor:grabbing;
 
+    scroll-behavior:auto;
+}
+
+.gallery img{
     flex:
         0 0
         clamp(230px,70vw,310px);
@@ -771,25 +698,24 @@ img{
         transform .4s,
         filter .4s;
 
+    pointer-events:none;
+
+    -webkit-user-drag:none;
 }
 
 .gallery img:hover{
-
     transform:scale(1.025);
 
     filter:
         brightness(1.08);
-
 }
 
 .gallery-hint{
-
     color:#cdbda7;
 
     font-size:.8rem;
 
     margin-top:5px;
-
 }
 
 /* =========================================================
@@ -797,7 +723,6 @@ img{
 ========================================================= */
 
 .story-text{
-
     font-family:"Amiri",serif;
 
     color:#f5ead9;
@@ -810,11 +735,9 @@ img{
     max-width:750px;
 
     margin:0 auto 25px;
-
 }
 
 .story-video{
-
     width:100%;
 
     max-height:600px;
@@ -832,7 +755,6 @@ img{
 
     box-shadow:
         0 20px 50px rgba(0,0,0,.4);
-
 }
 
 /* =========================================================
@@ -840,7 +762,6 @@ img{
 ========================================================= */
 
 .instructions{
-
     display:grid;
 
     grid-template-columns:
@@ -849,11 +770,9 @@ img{
     gap:15px;
 
     margin-top:15px;
-
 }
 
 .instruction{
-
     padding:28px 15px;
 
     border-radius:24px;
@@ -869,20 +788,16 @@ img{
     transition:
         transform .3s,
         background .3s;
-
 }
 
 .instruction:hover{
-
     transform:translateY(-4px);
 
     background:
         rgba(255,255,255,.10);
-
 }
 
 .instruction-icon{
-
     width:72px;
     height:72px;
 
@@ -907,11 +822,9 @@ img{
 
     box-shadow:
         0 0 25px rgba(216,179,106,.08);
-
 }
 
 .instruction h3{
-
     font-family:"Amiri",serif;
 
     color:#fff8ed;
@@ -919,15 +832,12 @@ img{
     font-size:1.6rem;
 
     margin-bottom:5px;
-
 }
 
 .instruction p{
-
     color:#d7c9b5;
 
     font-size:.9rem;
-
 }
 
 /* =========================================================
@@ -935,27 +845,22 @@ img{
 ========================================================= */
 
 .rsvp-text{
-
     color:#dcd0be;
 
     line-height:2;
 
     margin-bottom:22px;
-
 }
 
 .rsvp-form{
-
     display:flex;
 
     flex-direction:column;
 
     gap:12px;
-
 }
 
 .rsvp-input{
-
     width:100%;
 
     padding:15px 18px;
@@ -973,24 +878,18 @@ img{
         rgba(255,255,255,.07);
 
     backdrop-filter:blur(10px);
-
 }
 
 .rsvp-input::placeholder{
-
     color:rgba(255,245,230,.6);
-
 }
 
 .rsvp-input:focus{
-
     border-color:
         rgba(243,221,168,.65);
-
 }
 
 .rsvp-button{
-
     border:0;
 
     padding:15px;
@@ -1012,17 +911,13 @@ img{
 
     transition:
         transform .25s;
-
 }
 
 .rsvp-button:hover{
-
     transform:translateY(-2px);
-
 }
 
 #rsvpStatus{
-
     min-height:28px;
 
     margin-top:12px;
@@ -1030,7 +925,6 @@ img{
     color:var(--gold-light);
 
     font-weight:700;
-
 }
 
 /* =========================================================
@@ -1038,7 +932,6 @@ img{
 ========================================================= */
 
 .final-title{
-
     font-family:"Amiri",serif;
 
     color:#fff8ed;
@@ -1047,27 +940,22 @@ img{
         clamp(2.2rem,6vw,3.8rem);
 
     margin-bottom:12px;
-
 }
 
 .final-text{
-
     color:#ddcfbb;
 
     line-height:2;
 
     margin-bottom:20px;
-
 }
 
 .signature{
-
     font-family:"Amiri",serif;
 
     color:var(--gold-light);
 
     font-size:2.3rem;
-
 }
 
 /* =========================================================
@@ -1075,7 +963,6 @@ img{
 ========================================================= */
 
 footer{
-
     text-align:center;
 
     padding:
@@ -1090,17 +977,14 @@ footer{
         1px solid rgba(255,235,190,.12);
 
     color:#cdbda7;
-
 }
 
 footer strong{
-
     font-family:"Amiri",serif;
 
     color:#fff4df;
 
     font-size:1.4rem;
-
 }
 
 /* =========================================================
@@ -1108,7 +992,6 @@ footer strong{
 ========================================================= */
 
 #musicButton{
-
     position:fixed;
 
     top:18px;
@@ -1134,7 +1017,6 @@ footer strong{
     cursor:pointer;
 
     display:none;
-
 }
 
 /* =========================================================
@@ -1142,7 +1024,6 @@ footer strong{
 ========================================================= */
 
 .reveal{
-
     opacity:0;
 
     transform:
@@ -1151,15 +1032,12 @@ footer strong{
     transition:
         opacity .8s ease,
         transform .8s ease;
-
 }
 
 .reveal.visible{
-
     opacity:1;
 
     transform:none;
-
 }
 
 /* =========================================================
@@ -1169,71 +1047,50 @@ footer strong{
 @media(max-width:650px){
 
     .section{
-
         padding:
             25px
             10px;
-
     }
 
     .section + .section{
-
         padding-top:15px;
-
     }
 
     .glass{
-
         padding:
             25px
             15px;
 
         border-radius:24px;
-
     }
 
     .countdown{
-
         gap:6px;
-
     }
 
     .counter{
-
         padding:14px 4px;
-
     }
 
     .counter strong{
-
         font-size:1.65rem;
-
     }
 
     .counter span{
-
         font-size:.68rem;
-
     }
 
     .instructions{
-
         grid-template-columns:1fr;
-
     }
 
     .gallery img{
-
         flex-basis:76vw;
-
         height:95vw;
-
     }
 
     .opening-frame{
-
         inset:12px;
-
     }
 
 }
@@ -1244,14 +1101,8 @@ footer strong{
 
 @media(prefers-reduced-motion:reduce){
 
-    *,
-    *::before,
-    *::after{
-
-        animation:none!important;
-
+    *{
         transition:none!important;
-
     }
 
 }
@@ -1259,7 +1110,9 @@ footer strong{
 </style>
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      BACKGROUND VIDEO
@@ -1415,6 +1268,7 @@ footer strong{
         السبت 26 ديسمبر 2026 — الساعة 14:00
     </p>
 
+
     <div
         class="countdown"
         id="countdown">
@@ -1431,6 +1285,7 @@ footer strong{
 
         </div>
 
+
         <div class="counter">
 
             <strong id="hours">
@@ -1443,6 +1298,7 @@ footer strong{
 
         </div>
 
+
         <div class="counter">
 
             <strong id="minutes">
@@ -1454,6 +1310,7 @@ footer strong{
             </span>
 
         </div>
+
 
         <div class="counter">
 
@@ -1538,6 +1395,7 @@ footer strong{
         بعض اللحظات الجميلة التي نشارككم إياها 🤍
     </p>
 
+
     <div class="gallery-wrapper">
 
         <div
@@ -1546,27 +1404,33 @@ footer strong{
 
             <img
                 src="gallery1.jpg"
-                alt="صورة 1">
+                alt="صورة 1"
+                draggable="false">
 
             <img
                 src="gallery2.jpg"
-                alt="صورة 2">
+                alt="صورة 2"
+                draggable="false">
 
             <img
                 src="gallery3.jpg"
-                alt="صورة 3">
+                alt="صورة 3"
+                draggable="false">
 
             <img
                 src="gallery4.jpg"
-                alt="صورة 4">
+                alt="صورة 4"
+                draggable="false">
 
             <img
                 src="gallery5.jpg"
-                alt="صورة 5">
+                alt="صورة 5"
+                draggable="false">
 
             <img
                 src="gallery6.jpg"
-                alt="صورة 6">
+                alt="صورة 6"
+                draggable="false">
 
         </div>
 
@@ -1618,11 +1482,16 @@ footer strong{
 
     </p>
 
+
+    <!-- فيديو القصة يعمل تلقائيًا وبدون صوت -->
+
     <video
         class="story-video"
-        controls
+        autoplay
+        muted
+        loop
         playsinline
-        preload="metadata">
+        preload="auto">
 
         <source
             src="story.mp4"
@@ -1656,7 +1525,9 @@ footer strong{
         نرجو منكم الالتزام بالتعليمات التالية.
     </p>
 
+
     <div class="instructions">
+
 
         <div class="instruction">
 
@@ -1675,6 +1546,7 @@ footer strong{
 
         </div>
 
+
         <div class="instruction">
 
             <div class="instruction-icon">
@@ -1691,6 +1563,7 @@ footer strong{
             </p>
 
         </div>
+
 
     </div>
 
@@ -1722,6 +1595,7 @@ footer strong{
 
     </p>
 
+
     <div class="rsvp-form">
 
         <input
@@ -1731,6 +1605,7 @@ footer strong{
             placeholder="الاسم الكامل"
             maxlength="100">
 
+
         <input
             id="guestCount"
             class="rsvp-input"
@@ -1738,6 +1613,7 @@ footer strong{
             min="1"
             max="20"
             placeholder="عدد الأشخاص">
+
 
         <button
             id="rsvpButton"
@@ -1749,6 +1625,7 @@ footer strong{
         </button>
 
     </div>
+
 
     <div id="rsvpStatus"></div>
 
@@ -1850,15 +1727,33 @@ function openInvitation(){
 
     musicButton.style.display = "block";
 
+
     music.volume = .25;
 
     music.play().catch(()=>{});
+
 
     setTimeout(()=>{
 
         opening.style.display = "none";
 
         initReveal();
+
+        /*
+           محاولة تشغيل فيديو القصة
+           بعد فتح الدعوة
+        */
+
+        const storyVideo =
+            document.querySelector(".story-video");
+
+        if(storyVideo){
+
+            storyVideo.muted = true;
+
+            storyVideo.play().catch(()=>{});
+
+        }
 
     },1500);
 
@@ -2062,124 +1957,148 @@ function initReveal(){
 
 
 /* =========================================================
-   GALLERY DRAG
+   GALLERY
+   حركة تلقائية + سحب بالماوس واللمس
 ========================================================= */
 
 const gallery =
     document.getElementById("gallery");
 
-let isDown = false;
 
-let startX;
+let galleryDirection = -1;
 
-let scrollLeft;
+/*
+   سرعة الحركة التلقائية
+   كلما زادت القيمة زادت السرعة
+*/
 
+const AUTO_SPEED = 0.55;
+
+
+/*
+   حالة السحب
+*/
+
+let isDragging = false;
+
+let dragStartX = 0;
+
+let dragStartScroll = 0;
+
+
+/*
+   إيقاف الحركة التلقائية مؤقتًا
+   أثناء لمس/سحب المستخدم
+*/
+
+let userInteracting = false;
+
+
+/* =========================================================
+   POINTER DOWN
+========================================================= */
 
 gallery.addEventListener(
-    "mousedown",
+    "pointerdown",
     e=>{
 
-        isDown = true;
+        isDragging = true;
 
-        gallery.style.cursor =
-            "grabbing";
+        userInteracting = true;
 
-        startX =
-            e.pageX -
-            gallery.offsetLeft;
+        gallery.classList.add("dragging");
 
-        scrollLeft =
+        dragStartX = e.clientX;
+
+        dragStartScroll =
             gallery.scrollLeft;
 
-    }
-);
+        try{
 
+            gallery.setPointerCapture(
+                e.pointerId
+            );
 
-gallery.addEventListener(
-    "mouseleave",
-    ()=>{
-
-        isDown = false;
-
-        gallery.style.cursor =
-            "grab";
-
-    }
-);
-
-
-gallery.addEventListener(
-    "mouseup",
-    ()=>{
-
-        isDown = false;
-
-        gallery.style.cursor =
-            "grab";
-
-    }
-);
-
-
-gallery.addEventListener(
-    "mousemove",
-    e=>{
-
-        if(!isDown) return;
-
-        e.preventDefault();
-
-        const x =
-            e.pageX -
-            gallery.offsetLeft;
-
-        const walk =
-            (x-startX)*1.4;
-
-        gallery.scrollLeft =
-            scrollLeft-walk;
+        }catch(error){}
 
     }
 );
 
 
 /* =========================================================
-   TOUCH SWIPE
+   POINTER MOVE
 ========================================================= */
 
-let touchStartX = 0;
-
-
 gallery.addEventListener(
-    "touchstart",
+    "pointermove",
     e=>{
 
-        touchStartX =
-            e.touches[0].clientX;
+        if(!isDragging) return;
 
-    },
-    {passive:true}
+        const distance =
+            e.clientX - dragStartX;
+
+        gallery.scrollLeft =
+            dragStartScroll - distance;
+
+    }
 );
 
 
+/* =========================================================
+   POINTER UP
+========================================================= */
+
+function stopGalleryDrag(e){
+
+    isDragging = false;
+
+    gallery.classList.remove(
+        "dragging"
+    );
+
+    /*
+       نترك توقفًا بسيطًا بعد السحب
+       ثم تعود الحركة التلقائية
+    */
+
+    setTimeout(()=>{
+
+        userInteracting = false;
+
+    },800);
+
+
+    try{
+
+        gallery.releasePointerCapture(
+            e.pointerId
+        );
+
+    }catch(error){}
+
+}
+
+
 gallery.addEventListener(
-    "touchmove",
+    "pointerup",
+    stopGalleryDrag
+);
+
+gallery.addEventListener(
+    "pointercancel",
+    stopGalleryDrag
+);
+
+gallery.addEventListener(
+    "pointerleave",
     e=>{
 
-        const currentX =
-            e.touches[0].clientX;
+        if(isDragging){
+            stopGalleryDrag(e);
+        }
 
-        const difference =
-            touchStartX-currentX;
-
-        gallery.scrollLeft +=
-            difference*.35;
-
-        touchStartX =
-            currentX;
-
-    },
-    {passive:true}
+    }
 );
 
 
@@ -2187,56 +2106,181 @@ gallery.addEventListener(
    AUTO GALLERY
 ========================================================= */
 
-let galleryDirection = 1;
-
-
-setInterval(()=>{
+function animateGallery(){
 
     if(
-        gallery.scrollWidth <=
-        gallery.clientWidth
-    ) return;
-
-
-    const maxScroll =
-        gallery.scrollWidth -
-        gallery.clientWidth;
-
-
-    if(
-        gallery.scrollLeft >=
-        maxScroll-5
+        !userInteracting &&
+        !isDragging
     ){
 
-        galleryDirection = -1;
+        const maxScroll =
+            gallery.scrollWidth -
+            gallery.clientWidth;
+
+
+        /*
+           إذا لم يكن هناك مساحة للحركة
+        */
+
+        if(maxScroll > 0){
+
+            /*
+               من اليمين إلى اليسار
+            */
+
+            if(
+                galleryDirection === -1
+            ){
+
+                gallery.scrollLeft +=
+                    AUTO_SPEED;
+
+
+                /*
+                   وصلنا للنهاية
+                   نعود بالاتجاه الآخر
+                */
+
+                if(
+                    gallery.scrollLeft >=
+                    maxScroll - 1
+                ){
+
+                    galleryDirection = 1;
+
+                }
+
+            }
+
+
+            /*
+               من اليسار إلى اليمين
+            */
+
+            else{
+
+                gallery.scrollLeft -=
+                    AUTO_SPEED;
+
+
+                /*
+                   وصلنا للبداية
+                   نعود للاتجاه الأول
+                */
+
+                if(
+                    gallery.scrollLeft <= 1
+                ){
+
+                    galleryDirection = -1;
+
+                }
+
+            }
+
+        }
 
     }
 
 
-    if(
-        gallery.scrollLeft <= 5
-    ){
+    requestAnimationFrame(
+        animateGallery
+    );
 
-        galleryDirection = 1;
-
-    }
+}
 
 
-    gallery.scrollBy({
+requestAnimationFrame(
+    animateGallery
+);
 
-        left:
-            galleryDirection*1.2,
 
-        behavior:"auto"
+/* =========================================================
+   STORY VIDEO
+========================================================= */
 
-    });
+const storyVideo =
+    document.querySelector(
+        ".story-video"
+    );
 
-},40);
+
+if(storyVideo){
+
+    /*
+       مهم جدًا للتشغيل التلقائي
+    */
+
+    storyVideo.muted = true;
+
+    storyVideo.setAttribute(
+        "muted",
+        ""
+    );
+
+    storyVideo.setAttribute(
+        "playsinline",
+        ""
+    );
+
+
+    /*
+       محاولة تشغيل الفيديو
+    */
+
+    storyVideo.play().catch(()=>{});
+
+
+    /*
+       إذا وصل المستخدم إلى قسم الفيديو
+       نحاول تشغيله مرة أخرى
+    */
+
+    const videoObserver =
+        new IntersectionObserver(
+
+            entries=>{
+
+                entries.forEach(
+                    entry=>{
+
+                        if(
+                            entry.isIntersecting
+                        ){
+
+                            storyVideo.muted = true;
+
+                            storyVideo.play()
+                                .catch(()=>{});
+
+                        }
+
+                    }
+                );
+
+            },
+
+            {
+                threshold:.15
+            }
+
+        );
+
+
+    videoObserver.observe(
+        storyVideo
+    );
+
+}
 
 
 /* =========================================================
    RSVP
 ========================================================= */
+
+/*
+   ضع رابط Google Apps Script هنا لاحقًا
+*/
 
 const RSVP_SCRIPT_URL = "";
 
@@ -2289,6 +2333,10 @@ rsvpButton.addEventListener(
 
         }
 
+
+        /*
+           الرابط لم يوضع بعد
+        */
 
         if(!RSVP_SCRIPT_URL){
 
