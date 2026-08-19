@@ -134,8 +134,6 @@ img{
     pointer-events:none;
 }
 
-/* الإطار مخفي لأن الرسالة أصبحت تغطي الشاشة */
-
 .opening-frame{
     display:none;
 }
@@ -181,8 +179,6 @@ img{
 
     border-radius:0;
 }
-
-/* ضوء يمر على الرسالة */
 
 .envelope::after{
     content:"";
@@ -630,7 +626,7 @@ img{
 
     overflow-x:auto;
 
-    scroll-behavior:smooth;
+    scroll-behavior:auto;
 
     scrollbar-width:none;
 
@@ -641,6 +637,8 @@ img{
     touch-action:pan-y;
 
     direction:ltr;
+
+    -webkit-overflow-scrolling:touch;
 }
 
 .gallery::-webkit-scrollbar{
@@ -672,6 +670,8 @@ img{
     user-select:none;
 
     -webkit-user-drag:none;
+
+    pointer-events:auto;
 }
 
 .gallery img:hover{
@@ -1434,6 +1434,7 @@ footer strong{
 
     <video
         class="story-video"
+        id="storyVideo"
         autoplay
         muted
         loop
@@ -1669,6 +1670,23 @@ function openInvitation(){
 
     music.play().catch(()=>{});
 
+    /* تشغيل فيديو القصة تلقائيًا وبدون صوت */
+    const storyVideo =
+        document.getElementById("storyVideo");
+
+    if(storyVideo){
+
+        storyVideo.muted = true;
+
+        storyVideo.setAttribute(
+            "muted",
+            ""
+        );
+
+        storyVideo.play().catch(()=>{});
+
+    }
+
     setTimeout(()=>{
 
         opening.style.display = "none";
@@ -1861,27 +1879,25 @@ function initReveal(){
 
 /* =========================================================
    GALLERY
-   حركة تلقائية ناعمة + لمس وسحب
+   حركة تلقائية ناعمة من اليمين إلى اليسار
+   مع الحفاظ على اللمس والسحب
 ========================================================= */
 
 const gallery =
     document.getElementById("gallery");
 
 let isDown = false;
+
 let startX = 0;
+
 let scrollLeft = 0;
 
-/* سرعة الحركة التلقائية */
-
-let autoSpeed = 0.55;
-
-/* اتجاه الحركة */
-
-let galleryDirection = 1;
-
-/* إيقاف الحركة لحظيًا أثناء اللمس */
-
 let userInteracting = false;
+
+
+/* سرعة الحركة */
+
+const autoSpeed = 0.35;
 
 
 /* =========================================================
@@ -1963,10 +1979,13 @@ gallery.addEventListener(
 
 
 /* =========================================================
-   TOUCH SWIPE
+   TOUCH
+   تحسين السحب باللمس
 ========================================================= */
 
 let touchStartX = 0;
+
+let touchLastX = 0;
 
 gallery.addEventListener(
     "touchstart",
@@ -1976,6 +1995,9 @@ gallery.addEventListener(
 
         touchStartX =
             e.touches[0].clientX;
+
+        touchLastX =
+            touchStartX;
 
     },
     {passive:true}
@@ -1990,12 +2012,12 @@ gallery.addEventListener(
             e.touches[0].clientX;
 
         const difference =
-            touchStartX - currentX;
+            touchLastX - currentX;
 
         gallery.scrollLeft +=
             difference;
 
-        touchStartX =
+        touchLastX =
             currentX;
 
     },
@@ -2007,14 +2029,12 @@ gallery.addEventListener(
     "touchend",
     ()=>{
 
-        /*
-           نترك المعرض يتوقف لحظة قصيرة
-           ثم يعود للحركة تلقائيًا.
-        */
-
-        setTimeout(()=>{
-            userInteracting = false;
-        },700);
+        setTimeout(
+            ()=>{
+                userInteracting = false;
+            },
+            700
+        );
 
     },
     {passive:true}
@@ -2022,64 +2042,96 @@ gallery.addEventListener(
 
 
 /* =========================================================
-   AUTOMATIC SMOOTH GALLERY
+   AUTOMATIC GALLERY
+   من اليمين إلى اليسار بشكل مستمر وناعم
 ========================================================= */
 
 function autoGallery(){
 
-    if(userInteracting){
-        requestAnimationFrame(autoGallery);
-        return;
-    }
+    if(!userInteracting){
 
-    const maxScroll =
-        gallery.scrollWidth -
-        gallery.clientWidth;
+        const maxScroll =
+            gallery.scrollWidth -
+            gallery.clientWidth;
 
-    if(maxScroll <= 0){
-        requestAnimationFrame(autoGallery);
-        return;
-    }
+        if(maxScroll > 0){
 
-    /*
-       يتحرك من اليمين إلى اليسار
-       ثم يعود عند الوصول للنهاية.
-    */
+            /*
+             زيادة scrollLeft في اتجاه LTR
+             تجعل الصور تتحرك بصريًا
+             من اليمين إلى اليسار.
+            */
 
-    gallery.scrollLeft +=
-        autoSpeed * galleryDirection;
+            gallery.scrollLeft +=
+                autoSpeed;
 
-    /*
-       عند الوصول إلى النهاية
-       نغير الاتجاه.
-    */
+            /*
+             عند الوصول إلى النهاية
+             نعود إلى البداية بسلاسة.
+            */
 
-    if(
-        gallery.scrollLeft >=
-        maxScroll - 1
-    ){
+            if(
+                gallery.scrollLeft >=
+                maxScroll
+            ){
 
-        galleryDirection = -1;
+                gallery.scrollLeft = 0;
 
-    }
+            }
 
-    /*
-       عند العودة للبداية
-       نغير الاتجاه مرة أخرى.
-    */
-
-    if(
-        gallery.scrollLeft <= 1
-    ){
-
-        galleryDirection = 1;
+        }
 
     }
 
-    requestAnimationFrame(autoGallery);
+    requestAnimationFrame(
+        autoGallery
+    );
 }
 
-requestAnimationFrame(autoGallery);
+requestAnimationFrame(
+    autoGallery
+);
+
+
+/* =========================================================
+   STORY VIDEO
+   تشغيل تلقائي + بدون صوت
+========================================================= */
+
+const storyVideo =
+    document.getElementById(
+        "storyVideo"
+    );
+
+if(storyVideo){
+
+    storyVideo.muted = true;
+
+    storyVideo.defaultMuted = true;
+
+    storyVideo.setAttribute(
+        "muted",
+        ""
+    );
+
+    storyVideo.setAttribute(
+        "playsinline",
+        ""
+    );
+
+    storyVideo.setAttribute(
+        "autoplay",
+        ""
+    );
+
+    storyVideo.setAttribute(
+        "loop",
+        ""
+    );
+
+    storyVideo.play().catch(()=>{});
+
+}
 
 
 /* =========================================================
