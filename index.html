@@ -14,10 +14,6 @@
 
 <style>
 
-/* =========================================================
-   VARIABLES
-========================================================= */
-
 :root{
     --gold:#d8b36a;
     --gold-light:#f3dda8;
@@ -27,10 +23,6 @@
     --glass-strong:rgba(255,255,255,.13);
     --border:rgba(255,235,190,.25);
 }
-
-/* =========================================================
-   RESET
-========================================================= */
 
 *{
     box-sizing:border-box;
@@ -608,30 +600,34 @@ img{
 }
 
 /* =========================================================
-   GALLERY
-   التعديل الوحيد هنا:
-   معرض دائري لا نهائي + 3 صور ظاهرة + لمس وسحب
+   GALLERY — معرض هاتف احترافي
+   صورة واحدة ظاهرة + أسهم يمين ويسار + سحب باللمس
 ========================================================= */
 
 .gallery-wrapper{
     width:100%;
     position:relative;
     overflow:hidden;
-    padding:8px 0 15px;
+    padding:10px 48px 18px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 .gallery{
-    display:flex;
-    gap:12px;
+    position:relative;
 
-    width:max-content;
+    width:100%;
+    max-width:520px;
+
+    display:flex;
 
     direction:ltr;
 
     cursor:grab;
 
     user-select:none;
-
     -webkit-user-select:none;
 
     touch-action:pan-y;
@@ -639,6 +635,8 @@ img{
     will-change:transform;
 
     transition:transform .45s ease;
+
+    overflow:visible;
 }
 
 .gallery.dragging{
@@ -647,40 +645,113 @@ img{
 }
 
 .gallery img{
-    flex:0 0 calc(
-        (min(900px,100vw) - 118px) / 3
-    );
+    flex:0 0 100%;
 
-    width:calc(
-        (min(900px,100vw) - 118px) / 3
-    );
-
-    height:390px;
+    width:100%;
+    height:620px;
 
     object-fit:cover;
 
-    border-radius:22px;
+    border-radius:28px;
 
     border:
-        1px solid rgba(255,235,190,.22);
+        1px solid rgba(255,235,190,.25);
 
     box-shadow:
-        0 15px 35px rgba(0,0,0,.35);
-
-    transition:
-        transform .4s,
-        filter .4s;
+        0 20px 50px rgba(0,0,0,.5);
 
     pointer-events:none;
 
     -webkit-user-drag:none;
+
+    transition:
+        transform .4s,
+        filter .4s;
 }
 
 .gallery img:hover{
-    transform:scale(1.025);
+    filter:brightness(1.06);
+}
 
-    filter:
-        brightness(1.08);
+/* =========================================================
+   GALLERY ARROWS
+========================================================= */
+
+.gallery-arrow{
+    position:absolute;
+
+    top:50%;
+    transform:translateY(-50%);
+
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+
+    border:
+        1px solid rgba(255,235,190,.35);
+
+    background:
+        rgba(15,10,10,.62);
+
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    color:var(--gold-light);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:25px;
+
+    cursor:pointer;
+
+    z-index:20;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.35);
+
+    transition:
+        transform .25s,
+        background .25s,
+        box-shadow .25s;
+}
+
+.gallery-arrow:hover{
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+    background:
+        rgba(25,18,18,.82);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+}
+
+.gallery-arrow:active{
+    transform:
+        translateY(-50%)
+        scale(.94);
+}
+
+.gallery-prev{
+    right:0;
+}
+
+.gallery-next{
+    left:0;
+}
+
+.gallery-counter{
+    margin-top:4px;
+
+    color:#ddcdb4;
+
+    font-size:.78rem;
+
+    direction:rtl;
 }
 
 .gallery-hint{
@@ -1057,24 +1128,42 @@ footer strong{
         grid-template-columns:1fr;
     }
 
-    /* ثلاث صور ظاهرة في الهاتف */
+    /* معرض الهاتف */
+    .gallery-wrapper{
+        padding:
+            10px
+            42px
+            18px;
+    }
+
     .gallery{
-        gap:8px;
+        width:100%;
+        max-width:100%;
     }
 
     .gallery img{
-        flex-basis:calc(
-            (100vw - 58px) / 3
-        );
+        flex-basis:100%;
+        width:100%;
 
-        width:calc(
-            (100vw - 58px) / 3
-        );
+        height:125vw;
+        max-height:560px;
 
-        height:110vw;
-        max-height:390px;
+        border-radius:22px;
+    }
 
-        border-radius:16px;
+    .gallery-arrow{
+        width:42px;
+        height:42px;
+
+        font-size:22px;
+    }
+
+    .gallery-prev{
+        right:0;
+    }
+
+    .gallery-next{
+        left:0;
     }
 
     .opening-text{
@@ -1082,10 +1171,6 @@ footer strong{
     }
 
 }
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
 
 @media(prefers-reduced-motion:reduce){
 
@@ -1363,6 +1448,17 @@ footer strong{
 
     <div class="gallery-wrapper">
 
+        <!-- سهم الصورة السابقة -->
+        <button
+            class="gallery-arrow gallery-prev"
+            id="galleryPrev"
+            type="button"
+            aria-label="الصورة السابقة">
+
+            ❯
+
+        </button>
+
         <div
             class="gallery"
             id="gallery">
@@ -1398,6 +1494,25 @@ footer strong{
                 draggable="false">
 
         </div>
+
+        <!-- سهم الصورة التالية -->
+        <button
+            class="gallery-arrow gallery-next"
+            id="galleryNext"
+            type="button"
+            aria-label="الصورة التالية">
+
+            ❮
+
+        </button>
+
+    </div>
+
+    <div
+        class="gallery-counter"
+        id="galleryCounter">
+
+        1 / 6
 
     </div>
 
@@ -1446,8 +1561,6 @@ footer strong{
         </strong>
 
     </p>
-
-    <!-- الفيديو يتكرر تلقائيًا وبدون صوت -->
 
     <video
         class="story-video"
@@ -1879,38 +1992,30 @@ function initReveal(){
 
 /* =========================================================
    GALLERY
-   معرض دائري لا نهائي
-   3 صور ظاهرة في الواجهة
-   حركة تلقائية + لمس وسحب
+   معرض صور بشكل هاتف
+   صورة واحدة في كل مرة
+   الأسهم + السحب باللمس والماوس
+   بدون حركة تلقائية حتى تبقى تجربة الهاتف احترافية
 ========================================================= */
 
 const gallery =
     document.getElementById("gallery");
 
-const originalImages =
+const galleryImages =
     Array.from(
         gallery.querySelectorAll("img")
     );
 
-/*
-   نكرر الصور ثلاث مرات حتى تصبح الحركة
-   دائرية بدون توقف أو فراغ.
-*/
+const galleryPrev =
+    document.getElementById("galleryPrev");
 
-originalImages.forEach(img=>{
-    const clone = img.cloneNode(true);
-    gallery.appendChild(clone);
-});
+const galleryNext =
+    document.getElementById("galleryNext");
 
-originalImages.forEach(img=>{
-    const clone = img.cloneNode(true);
-    gallery.appendChild(clone);
-});
+const galleryCounter =
+    document.getElementById("galleryCounter");
 
-
-let galleryPosition = 0;
-
-let gallerySpeed = 0.35;
+let galleryIndex = 0;
 
 let galleryDragging = false;
 
@@ -1918,148 +2023,97 @@ let galleryStartX = 0;
 
 let galleryStartPosition = 0;
 
-let galleryLastTime = 0;
-
-let galleryAuto = true;
+let galleryCurrentPosition = 0;
 
 
 /* =========================================================
-   GET IMAGE WIDTH
+   UPDATE GALLERY
 ========================================================= */
 
-function getGalleryStep(){
+function updateGallery(
+    animate = true
+){
 
-    const image =
-        gallery.querySelector("img");
+    const width =
+        gallery.clientWidth;
 
-    if(!image) return 0;
+    if(!width) return;
 
-    const style =
-        window.getComputedStyle(gallery);
+    galleryCurrentPosition =
+        galleryIndex * width;
 
-    const gap =
-        parseFloat(style.gap) || 0;
-
-    return image.getBoundingClientRect().width + gap;
-}
-
-
-/* =========================================================
-   INITIAL POSITION
-========================================================= */
-
-function setupGallery(){
-
-    const step =
-        getGalleryStep();
-
-    if(!step) return;
-
-    /*
-       نبدأ من المجموعة الوسطى.
-    */
-
-    galleryPosition =
-        step * originalImages.length;
+    gallery.style.transition =
+        animate
+        ? "transform .45s cubic-bezier(.22,.61,.36,1)"
+        : "none";
 
     gallery.style.transform =
-        `translate3d(${-galleryPosition}px,0,0)`;
+        `translate3d(${-galleryCurrentPosition}px,0,0)`;
 
-}
-
-window.addEventListener(
-    "load",
-    setupGallery
-);
-
-window.addEventListener(
-    "resize",
-    setupGallery
-);
-
-
-/* =========================================================
-   INFINITE LOOP
-========================================================= */
-
-function normalizeGallery(){
-
-    const step =
-        getGalleryStep();
-
-    if(!step) return;
-
-    const groupWidth =
-        step * originalImages.length;
-
-    /*
-       إذا وصلنا للمجموعة الثالثة،
-       نرجع إلى المجموعة الثانية.
-    */
-
-    if(
-        galleryPosition >=
-        groupWidth * 2
-    ){
-
-        galleryPosition -= groupWidth;
-
-    }
-
-    /*
-       إذا رجعنا للمجموعة الأولى،
-       ننتقل للمجموعة الثانية.
-    */
-
-    if(
-        galleryPosition < 0
-    ){
-
-        galleryPosition += groupWidth;
-
-    }
+    galleryCounter.textContent =
+        `${galleryIndex + 1} / ${galleryImages.length}`;
 
 }
 
 
 /* =========================================================
-   AUTOMATIC MOVEMENT
+   NEXT
 ========================================================= */
 
-function animateGallery(time){
+function nextGallery(){
 
-    if(!galleryLastTime){
-        galleryLastTime = time;
-    }
+    if(
+        galleryIndex <
+        galleryImages.length - 1
+    ){
 
-    const delta =
-        Math.min(
-            time - galleryLastTime,
-            40
-        );
+        galleryIndex++;
 
-    galleryLastTime = time;
+    }else{
 
-    if(!galleryDragging && galleryAuto){
-
-        galleryPosition +=
-            gallerySpeed * delta / 16;
-
-        normalizeGallery();
-
-        gallery.style.transform =
-            `translate3d(${-galleryPosition}px,0,0)`;
+        galleryIndex = 0;
 
     }
 
-    requestAnimationFrame(
-        animateGallery
-    );
+    updateGallery(true);
 
 }
 
-requestAnimationFrame(
-    animateGallery
+
+/* =========================================================
+   PREVIOUS
+========================================================= */
+
+function previousGallery(){
+
+    if(galleryIndex > 0){
+
+        galleryIndex--;
+
+    }else{
+
+        galleryIndex =
+            galleryImages.length - 1;
+
+    }
+
+    updateGallery(true);
+
+}
+
+
+/* =========================================================
+   ARROWS
+========================================================= */
+
+galleryNext.addEventListener(
+    "click",
+    nextGallery
+);
+
+galleryPrev.addEventListener(
+    "click",
+    previousGallery
 );
 
 
@@ -2073,17 +2127,19 @@ gallery.addEventListener(
 
         galleryDragging = true;
 
-        galleryAuto = false;
-
-        gallery.classList.add(
-            "dragging"
-        );
-
         galleryStartX =
             e.touches[0].clientX;
 
         galleryStartPosition =
-            galleryPosition;
+            galleryIndex *
+            gallery.clientWidth;
+
+        gallery.style.transition =
+            "none";
+
+        gallery.classList.add(
+            "dragging"
+        );
 
     },
     {passive:true}
@@ -2106,14 +2162,12 @@ gallery.addEventListener(
         const difference =
             currentX - galleryStartX;
 
-        galleryPosition =
+        const position =
             galleryStartPosition -
             difference;
 
-        normalizeGallery();
-
         gallery.style.transform =
-            `translate3d(${-galleryPosition}px,0,0)`;
+            `translate3d(${-position}px,0,0)`;
 
     },
     {passive:true}
@@ -2126,7 +2180,9 @@ gallery.addEventListener(
 
 gallery.addEventListener(
     "touchend",
-    ()=>{
+    e=>{
+
+        if(!galleryDragging) return;
 
         galleryDragging = false;
 
@@ -2134,14 +2190,37 @@ gallery.addEventListener(
             "dragging"
         );
 
-        /*
-           نترك الصور في مكانها ثم تعود
-           للحركة التلقائية بسلاسة.
-        */
+        const endX =
+            e.changedTouches[0].clientX;
 
-        setTimeout(()=>{
-            galleryAuto = true;
-        },900);
+        const difference =
+            endX - galleryStartX;
+
+        const threshold =
+            Math.min(
+                80,
+                gallery.clientWidth * .18
+            );
+
+        if(
+            difference <
+            -threshold
+        ){
+
+            nextGallery();
+
+        }else if(
+            difference >
+            threshold
+        ){
+
+            previousGallery();
+
+        }else{
+
+            updateGallery(true);
+
+        }
 
     },
     {passive:true}
@@ -2149,7 +2228,7 @@ gallery.addEventListener(
 
 
 /* =========================================================
-   MOUSE DRAG
+   MOUSE START
 ========================================================= */
 
 gallery.addEventListener(
@@ -2158,17 +2237,19 @@ gallery.addEventListener(
 
         galleryDragging = true;
 
-        galleryAuto = false;
-
-        gallery.classList.add(
-            "dragging"
-        );
-
         galleryStartX =
             e.clientX;
 
         galleryStartPosition =
-            galleryPosition;
+            galleryIndex *
+            gallery.clientWidth;
+
+        gallery.style.transition =
+            "none";
+
+        gallery.classList.add(
+            "dragging"
+        );
 
         e.preventDefault();
 
@@ -2176,39 +2257,37 @@ gallery.addEventListener(
 );
 
 
+/* =========================================================
+   MOUSE MOVE
+========================================================= */
+
 window.addEventListener(
     "mousemove",
     e=>{
 
         if(!galleryDragging) return;
 
-        /*
-           لا نستخدم هذا أثناء اللمس.
-        */
-
-        if(
-            e.buttons === 0
-        ) return;
-
         const difference =
             e.clientX - galleryStartX;
 
-        galleryPosition =
+        const position =
             galleryStartPosition -
             difference;
 
-        normalizeGallery();
-
         gallery.style.transform =
-            `translate3d(${-galleryPosition}px,0,0)`;
+            `translate3d(${-position}px,0,0)`;
 
     }
 );
 
 
+/* =========================================================
+   MOUSE END
+========================================================= */
+
 window.addEventListener(
     "mouseup",
-    ()=>{
+    e=>{
 
         if(!galleryDragging) return;
 
@@ -2218,9 +2297,95 @@ window.addEventListener(
             "dragging"
         );
 
-        setTimeout(()=>{
-            galleryAuto = true;
-        },900);
+        const difference =
+            e.clientX - galleryStartX;
+
+        const threshold =
+            Math.min(
+                80,
+                gallery.clientWidth * .18
+            );
+
+        if(
+            difference <
+            -threshold
+        ){
+
+            nextGallery();
+
+        }else if(
+            difference >
+            threshold
+        ){
+
+            previousGallery();
+
+        }else{
+
+            updateGallery(true);
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD SUPPORT
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    e=>{
+
+        if(
+            e.key === "ArrowLeft"
+        ){
+
+            nextGallery();
+
+        }
+
+        if(
+            e.key === "ArrowRight"
+        ){
+
+            previousGallery();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    ()=>{
+
+        updateGallery(false);
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL GALLERY
+========================================================= */
+
+window.addEventListener(
+    "load",
+    ()=>{
+
+        setTimeout(
+            ()=>{
+                updateGallery(false);
+            },
+            100
+        );
 
     }
 );
@@ -2228,7 +2393,6 @@ window.addEventListener(
 
 /* =========================================================
    STORY VIDEO
-   بدون صوت + تشغيل تلقائي + تكرار مستمر
 ========================================================= */
 
 const storyVideo =
