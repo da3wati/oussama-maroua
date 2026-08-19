@@ -119,13 +119,7 @@ img{
     justify-content:center;
     align-items:center;
 
-    background:
-        radial-gradient(
-            circle,
-            rgba(216,179,106,.12),
-            transparent 45%
-        ),
-        #0d0808;
+    background:#0d0808;
 
     overflow:hidden;
 
@@ -140,81 +134,52 @@ img{
     pointer-events:none;
 }
 
+/* الإطار مخفي لأن الرسالة أصبحت تغطي الشاشة */
+
 .opening-frame{
-    position:absolute;
-    inset:20px;
-
-    border:1px solid rgba(243,221,168,.25);
-
-    box-shadow:
-        inset 0 0 60px rgba(216,179,106,.10),
-        0 0 40px rgba(216,179,106,.08);
-
-    animation:frameGlow 4s ease-in-out infinite alternate;
+    display:none;
 }
 
-@keyframes frameGlow{
-    from{
-        box-shadow:
-            inset 0 0 40px rgba(216,179,106,.06),
-            0 0 20px rgba(216,179,106,.04);
-    }
-
-    to{
-        box-shadow:
-            inset 0 0 80px rgba(216,179,106,.18),
-            0 0 45px rgba(216,179,106,.13);
-    }
-}
-
-/* الرسالة */
+/* =========================================================
+   FULL SCREEN ENVELOPE
+========================================================= */
 
 .envelope{
-    position:relative;
+    position:absolute;
 
-    width:min(430px,85vw);
+    inset:0;
+
+    width:100vw;
+    height:100vh;
 
     cursor:pointer;
 
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
     animation:
-        envelopeFloat 5s ease-in-out infinite,
-        envelopeGlow 3.5s ease-in-out infinite alternate;
+        envelopeFloat 5s ease-in-out infinite;
 
-    filter:drop-shadow(
-        0 25px 45px rgba(0,0,0,.6)
-    );
-}
-
-@keyframes envelopeFloat{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-13px);
-    }
-}
-
-@keyframes envelopeGlow{
-
-    from{
-        filter:
-            drop-shadow(0 20px 40px rgba(0,0,0,.6))
-            drop-shadow(0 0 0 rgba(216,179,106,0));
-    }
-
-    to{
-        filter:
-            drop-shadow(0 20px 40px rgba(0,0,0,.6))
-            drop-shadow(0 0 25px rgba(216,179,106,.25));
-    }
+    filter:
+        drop-shadow(
+            0 25px 45px rgba(0,0,0,.6)
+        );
 }
 
 .envelope img{
     display:block;
+
     width:100%;
-    border-radius:12px;
+    height:100%;
+
+    object-fit:cover;
+
+    object-position:center;
+
+    border-radius:0;
 }
 
 /* ضوء يمر على الرسالة */
@@ -223,10 +188,11 @@ img{
     content:"";
 
     position:absolute;
+
     top:0;
     left:-100%;
 
-    width:50%;
+    width:45%;
     height:100%;
 
     background:
@@ -239,7 +205,21 @@ img{
 
     transform:skewX(-20deg);
 
-    animation:shine 5s ease-in-out infinite;
+    animation:
+        shine 5s ease-in-out infinite;
+
+    pointer-events:none;
+}
+
+@keyframes envelopeFloat{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.012);
+    }
 }
 
 @keyframes shine{
@@ -255,6 +235,7 @@ img{
 
 .opening-text{
     position:absolute;
+
     bottom:8%;
 
     left:50%;
@@ -271,6 +252,8 @@ img{
 
     animation:
         textPulse 2.5s ease-in-out infinite;
+
+    z-index:5;
 }
 
 @keyframes textPulse{
@@ -638,8 +621,6 @@ img{
     width:100%;
 
     position:relative;
-
-    touch-action:pan-y;
 }
 
 .gallery{
@@ -649,7 +630,7 @@ img{
 
     overflow-x:auto;
 
-    scroll-behavior:auto;
+    scroll-behavior:smooth;
 
     scrollbar-width:none;
 
@@ -657,23 +638,13 @@ img{
 
     padding:8px 2px 15px;
 
-    user-select:none;
-
-    -webkit-user-select:none;
-
-    -webkit-overflow-scrolling:touch;
-
     touch-action:pan-y;
+
+    direction:ltr;
 }
 
 .gallery::-webkit-scrollbar{
     display:none;
-}
-
-.gallery.dragging{
-    cursor:grabbing;
-
-    scroll-behavior:auto;
 }
 
 .gallery img{
@@ -698,7 +669,7 @@ img{
         transform .4s,
         filter .4s;
 
-    pointer-events:none;
+    user-select:none;
 
     -webkit-user-drag:none;
 }
@@ -1089,8 +1060,8 @@ footer strong{
         height:95vw;
     }
 
-    .opening-frame{
-        inset:12px;
+    .opening-text{
+        bottom:5%;
     }
 
 }
@@ -1102,17 +1073,15 @@ footer strong{
 @media(prefers-reduced-motion:reduce){
 
     *{
+        animation:none!important;
         transition:none!important;
     }
-
 }
 
 </style>
 </head>
 
-
 <body>
-
 
 <!-- =====================================================
      BACKGROUND VIDEO
@@ -1268,59 +1237,39 @@ footer strong{
         السبت 26 ديسمبر 2026 — الساعة 14:00
     </p>
 
-
     <div
         class="countdown"
         id="countdown">
 
         <div class="counter">
 
-            <strong id="days">
-                00
-            </strong>
+            <strong id="days">00</strong>
 
-            <span>
-                يوم
-            </span>
+            <span>يوم</span>
 
         </div>
 
-
         <div class="counter">
 
-            <strong id="hours">
-                00
-            </strong>
+            <strong id="hours">00</strong>
 
-            <span>
-                ساعة
-            </span>
+            <span>ساعة</span>
 
         </div>
 
-
         <div class="counter">
 
-            <strong id="minutes">
-                00
-            </strong>
+            <strong id="minutes">00</strong>
 
-            <span>
-                دقيقة
-            </span>
+            <span>دقيقة</span>
 
         </div>
 
-
         <div class="counter">
 
-            <strong id="seconds">
-                00
-            </strong>
+            <strong id="seconds">00</strong>
 
-            <span>
-                ثانية
-            </span>
+            <span>ثانية</span>
 
         </div>
 
@@ -1394,7 +1343,6 @@ footer strong{
     <p class="welcome">
         بعض اللحظات الجميلة التي نشارككم إياها 🤍
     </p>
-
 
     <div class="gallery-wrapper">
 
@@ -1482,8 +1430,7 @@ footer strong{
 
     </p>
 
-
-    <!-- فيديو القصة يعمل تلقائيًا وبدون صوت -->
+    <!-- الفيديو يعمل تلقائيًا وبدون صوت -->
 
     <video
         class="story-video"
@@ -1525,9 +1472,7 @@ footer strong{
         نرجو منكم الالتزام بالتعليمات التالية.
     </p>
 
-
     <div class="instructions">
-
 
         <div class="instruction">
 
@@ -1546,7 +1491,6 @@ footer strong{
 
         </div>
 
-
         <div class="instruction">
 
             <div class="instruction-icon">
@@ -1563,7 +1507,6 @@ footer strong{
             </p>
 
         </div>
-
 
     </div>
 
@@ -1595,7 +1538,6 @@ footer strong{
 
     </p>
 
-
     <div class="rsvp-form">
 
         <input
@@ -1605,7 +1547,6 @@ footer strong{
             placeholder="الاسم الكامل"
             maxlength="100">
 
-
         <input
             id="guestCount"
             class="rsvp-input"
@@ -1613,7 +1554,6 @@ footer strong{
             min="1"
             max="20"
             placeholder="عدد الأشخاص">
-
 
         <button
             id="rsvpButton"
@@ -1625,7 +1565,6 @@ footer strong{
         </button>
 
     </div>
-
 
     <div id="rsvpStatus"></div>
 
@@ -1683,7 +1622,6 @@ footer strong{
 
 </footer>
 
-
 </main>
 
 
@@ -1727,33 +1665,15 @@ function openInvitation(){
 
     musicButton.style.display = "block";
 
-
     music.volume = .25;
 
     music.play().catch(()=>{});
-
 
     setTimeout(()=>{
 
         opening.style.display = "none";
 
         initReveal();
-
-        /*
-           محاولة تشغيل فيديو القصة
-           بعد فتح الدعوة
-        */
-
-        const storyVideo =
-            document.querySelector(".story-video");
-
-        if(storyVideo){
-
-            storyVideo.muted = true;
-
-            storyVideo.play().catch(()=>{});
-
-        }
 
     },1500);
 
@@ -1765,7 +1685,6 @@ function openInvitation(){
 ========================================================= */
 
 let musicPlaying = false;
-
 
 musicButton.addEventListener(
     "click",
@@ -1814,12 +1733,10 @@ const weddingDate =
 
 function updateCountdown(){
 
-    const now =
-        Date.now();
+    const now = Date.now();
 
     const distance =
         weddingDate - now;
-
 
     if(distance <= 0){
 
@@ -1837,16 +1754,13 @@ function updateCountdown(){
         </div>`;
 
         return;
-
     }
-
 
     const days =
         Math.floor(
             distance /
             (1000*60*60*24)
         );
-
 
     const hours =
         Math.floor(
@@ -1855,14 +1769,12 @@ function updateCountdown(){
             (1000*60*60)
         );
 
-
     const minutes =
         Math.floor(
             (distance %
             (1000*60*60)) /
             (1000*60)
         );
-
 
     const seconds =
         Math.floor(
@@ -1871,28 +1783,23 @@ function updateCountdown(){
             1000
         );
 
-
     document.getElementById("days")
         .textContent =
         String(days).padStart(2,"0");
-
 
     document.getElementById("hours")
         .textContent =
         String(hours).padStart(2,"0");
 
-
     document.getElementById("minutes")
         .textContent =
         String(minutes).padStart(2,"0");
-
 
     document.getElementById("seconds")
         .textContent =
         String(seconds).padStart(2,"0");
 
 }
-
 
 updateCountdown();
 
@@ -1909,10 +1816,7 @@ setInterval(
 function initReveal(){
 
     const elements =
-        document.querySelectorAll(
-            ".reveal"
-        );
-
+        document.querySelectorAll(".reveal");
 
     const observer =
         new IntersectionObserver(
@@ -1947,7 +1851,6 @@ function initReveal(){
 
         );
 
-
     elements.forEach(
         element =>
             observer.observe(element)
@@ -1958,329 +1861,230 @@ function initReveal(){
 
 /* =========================================================
    GALLERY
-   حركة تلقائية + سحب بالماوس واللمس
+   حركة تلقائية ناعمة + لمس وسحب
 ========================================================= */
 
 const gallery =
     document.getElementById("gallery");
 
+let isDown = false;
+let startX = 0;
+let scrollLeft = 0;
 
-let galleryDirection = -1;
+/* سرعة الحركة التلقائية */
 
-/*
-   سرعة الحركة التلقائية
-   كلما زادت القيمة زادت السرعة
-*/
+let autoSpeed = 0.55;
 
-const AUTO_SPEED = 0.55;
+/* اتجاه الحركة */
 
+let galleryDirection = 1;
 
-/*
-   حالة السحب
-*/
-
-let isDragging = false;
-
-let dragStartX = 0;
-
-let dragStartScroll = 0;
-
-
-/*
-   إيقاف الحركة التلقائية مؤقتًا
-   أثناء لمس/سحب المستخدم
-*/
+/* إيقاف الحركة لحظيًا أثناء اللمس */
 
 let userInteracting = false;
 
 
 /* =========================================================
-   POINTER DOWN
+   MOUSE DRAG
 ========================================================= */
 
 gallery.addEventListener(
-    "pointerdown",
+    "mousedown",
     e=>{
 
-        isDragging = true;
+        isDown = true;
 
         userInteracting = true;
 
-        gallery.classList.add("dragging");
+        gallery.style.cursor =
+            "grabbing";
 
-        dragStartX = e.clientX;
+        startX =
+            e.pageX -
+            gallery.offsetLeft;
 
-        dragStartScroll =
+        scrollLeft =
             gallery.scrollLeft;
 
-        try{
-
-            gallery.setPointerCapture(
-                e.pointerId
-            );
-
-        }catch(error){}
-
     }
 );
 
-
-/* =========================================================
-   POINTER MOVE
-========================================================= */
 
 gallery.addEventListener(
-    "pointermove",
-    e=>{
+    "mouseleave",
+    ()=>{
 
-        if(!isDragging) return;
-
-        const distance =
-            e.clientX - dragStartX;
-
-        gallery.scrollLeft =
-            dragStartScroll - distance;
-
-    }
-);
-
-
-/* =========================================================
-   POINTER UP
-========================================================= */
-
-function stopGalleryDrag(e){
-
-    isDragging = false;
-
-    gallery.classList.remove(
-        "dragging"
-    );
-
-    /*
-       نترك توقفًا بسيطًا بعد السحب
-       ثم تعود الحركة التلقائية
-    */
-
-    setTimeout(()=>{
+        isDown = false;
 
         userInteracting = false;
 
-    },800);
+        gallery.style.cursor =
+            "grab";
 
-
-    try{
-
-        gallery.releasePointerCapture(
-            e.pointerId
-        );
-
-    }catch(error){}
-
-}
-
-
-gallery.addEventListener(
-    "pointerup",
-    stopGalleryDrag
+    }
 );
 
-gallery.addEventListener(
-    "pointercancel",
-    stopGalleryDrag
-);
 
 gallery.addEventListener(
-    "pointerleave",
+    "mouseup",
+    ()=>{
+
+        isDown = false;
+
+        userInteracting = false;
+
+        gallery.style.cursor =
+            "grab";
+
+    }
+);
+
+
+gallery.addEventListener(
+    "mousemove",
     e=>{
 
-        if(isDragging){
-            stopGalleryDrag(e);
-        }
+        if(!isDown) return;
+
+        e.preventDefault();
+
+        const x =
+            e.pageX -
+            gallery.offsetLeft;
+
+        const walk =
+            (x-startX) * 1.4;
+
+        gallery.scrollLeft =
+            scrollLeft - walk;
 
     }
 );
 
 
 /* =========================================================
-   AUTO GALLERY
+   TOUCH SWIPE
 ========================================================= */
 
-function animateGallery(){
+let touchStartX = 0;
 
-    if(
-        !userInteracting &&
-        !isDragging
-    ){
+gallery.addEventListener(
+    "touchstart",
+    e=>{
 
-        const maxScroll =
-            gallery.scrollWidth -
-            gallery.clientWidth;
+        userInteracting = true;
 
+        touchStartX =
+            e.touches[0].clientX;
+
+    },
+    {passive:true}
+);
+
+
+gallery.addEventListener(
+    "touchmove",
+    e=>{
+
+        const currentX =
+            e.touches[0].clientX;
+
+        const difference =
+            touchStartX - currentX;
+
+        gallery.scrollLeft +=
+            difference;
+
+        touchStartX =
+            currentX;
+
+    },
+    {passive:true}
+);
+
+
+gallery.addEventListener(
+    "touchend",
+    ()=>{
 
         /*
-           إذا لم يكن هناك مساحة للحركة
+           نترك المعرض يتوقف لحظة قصيرة
+           ثم يعود للحركة تلقائيًا.
         */
 
-        if(maxScroll > 0){
+        setTimeout(()=>{
+            userInteracting = false;
+        },700);
 
-            /*
-               من اليمين إلى اليسار
-            */
-
-            if(
-                galleryDirection === -1
-            ){
-
-                gallery.scrollLeft +=
-                    AUTO_SPEED;
-
-
-                /*
-                   وصلنا للنهاية
-                   نعود بالاتجاه الآخر
-                */
-
-                if(
-                    gallery.scrollLeft >=
-                    maxScroll - 1
-                ){
-
-                    galleryDirection = 1;
-
-                }
-
-            }
-
-
-            /*
-               من اليسار إلى اليمين
-            */
-
-            else{
-
-                gallery.scrollLeft -=
-                    AUTO_SPEED;
-
-
-                /*
-                   وصلنا للبداية
-                   نعود للاتجاه الأول
-                */
-
-                if(
-                    gallery.scrollLeft <= 1
-                ){
-
-                    galleryDirection = -1;
-
-                }
-
-            }
-
-        }
-
-    }
-
-
-    requestAnimationFrame(
-        animateGallery
-    );
-
-}
-
-
-requestAnimationFrame(
-    animateGallery
+    },
+    {passive:true}
 );
 
 
 /* =========================================================
-   STORY VIDEO
+   AUTOMATIC SMOOTH GALLERY
 ========================================================= */
 
-const storyVideo =
-    document.querySelector(
-        ".story-video"
-    );
+function autoGallery(){
 
+    if(userInteracting){
+        requestAnimationFrame(autoGallery);
+        return;
+    }
 
-if(storyVideo){
+    const maxScroll =
+        gallery.scrollWidth -
+        gallery.clientWidth;
 
-    /*
-       مهم جدًا للتشغيل التلقائي
-    */
-
-    storyVideo.muted = true;
-
-    storyVideo.setAttribute(
-        "muted",
-        ""
-    );
-
-    storyVideo.setAttribute(
-        "playsinline",
-        ""
-    );
-
+    if(maxScroll <= 0){
+        requestAnimationFrame(autoGallery);
+        return;
+    }
 
     /*
-       محاولة تشغيل الفيديو
+       يتحرك من اليمين إلى اليسار
+       ثم يعود عند الوصول للنهاية.
     */
 
-    storyVideo.play().catch(()=>{});
-
+    gallery.scrollLeft +=
+        autoSpeed * galleryDirection;
 
     /*
-       إذا وصل المستخدم إلى قسم الفيديو
-       نحاول تشغيله مرة أخرى
+       عند الوصول إلى النهاية
+       نغير الاتجاه.
     */
 
-    const videoObserver =
-        new IntersectionObserver(
+    if(
+        gallery.scrollLeft >=
+        maxScroll - 1
+    ){
 
-            entries=>{
+        galleryDirection = -1;
 
-                entries.forEach(
-                    entry=>{
+    }
 
-                        if(
-                            entry.isIntersecting
-                        ){
+    /*
+       عند العودة للبداية
+       نغير الاتجاه مرة أخرى.
+    */
 
-                            storyVideo.muted = true;
+    if(
+        gallery.scrollLeft <= 1
+    ){
 
-                            storyVideo.play()
-                                .catch(()=>{});
+        galleryDirection = 1;
 
-                        }
+    }
 
-                    }
-                );
-
-            },
-
-            {
-                threshold:.15
-            }
-
-        );
-
-
-    videoObserver.observe(
-        storyVideo
-    );
-
+    requestAnimationFrame(autoGallery);
 }
+
+requestAnimationFrame(autoGallery);
 
 
 /* =========================================================
    RSVP
 ========================================================= */
-
-/*
-   ضع رابط Google Apps Script هنا لاحقًا
-*/
 
 const RSVP_SCRIPT_URL = "";
 
@@ -2306,13 +2110,11 @@ rsvpButton.addEventListener(
             .value
             .trim();
 
-
         const count =
             document
             .getElementById("guestCount")
             .value
             .trim();
-
 
         if(!name){
 
@@ -2323,7 +2125,6 @@ rsvpButton.addEventListener(
 
         }
 
-
         if(!count){
 
             rsvpStatus.textContent =
@@ -2332,11 +2133,6 @@ rsvpButton.addEventListener(
             return;
 
         }
-
-
-        /*
-           الرابط لم يوضع بعد
-        */
 
         if(!RSVP_SCRIPT_URL){
 
@@ -2347,12 +2143,10 @@ rsvpButton.addEventListener(
 
         }
 
-
         rsvpButton.disabled = true;
 
         rsvpButton.textContent =
             "جاري الإرسال...";
-
 
         try{
 
@@ -2382,10 +2176,8 @@ rsvpButton.addEventListener(
                     }
                 );
 
-
             const result =
                 await response.json();
-
 
             if(result.success){
 
@@ -2412,7 +2204,6 @@ rsvpButton.addEventListener(
                 "تعذر إرسال التأكيد، حاول مرة أخرى.";
 
         }
-
 
         rsvpButton.disabled =
             false;
