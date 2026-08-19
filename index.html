@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#120d0d">
+
+<title>أسامة و مروة | دعوة زفاف</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+    --gold:#d8b36a;
+    --gold-light:#f3dda8;
+    --cream:#fff8ed;
+    --dark:#100b0b;
+    --glass:rgba(255,255,255,.09);
+    --glass-strong:rgba(255,255,255,.13);
+    --border:rgba(255,235,190,.25);
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#100b0b;
+    color:white;
+    font-family:"Cairo",sans-serif;
+    overflow-x:hidden;
+}
+
+button,
+input,
+textarea{
+    font-family:inherit;
+}
+
+img{
+    max-width:100%;
+}
+
+/* =========================================================
+   VIDEO BACKGROUND
+========================================================= */
+
+#backgroundVideo{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-5;
+    background:#100b0b;
+}
+
+.video-overlay{
+    position:fixed;
+    inset:0;
+    z-index:-4;
+
+    background:
+        linear-gradient(
+            rgba(20,10,10,.48),
+            rgba(15,8,8,.63)
+        );
+
+    pointer-events:none;
+}
+
+.video-glow{
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255,215,150,.13),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(255,210,140,.10),
+            transparent 32%
+        );
+}
+
+/* =========================================================
+   OPENING
+========================================================= */
+
+#opening{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:#0d0808;
+
+    overflow:hidden;
+
+    transition:
+        opacity 1.5s ease,
+        visibility 1.5s ease;
+}
+
+#opening.open{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+/* إطار مضيء */
+
+.opening-frame{
+    position:absolute;
+    inset:20px;
+
+    border:1px solid rgba(243,221,168,.25);
+
+    box-shadow:
+        inset 0 0 60px rgba(216,179,106,.10),
+        0 0 40px rgba(216,179,106,.08);
+
+    animation:frameGlow 4s ease-in-out infinite alternate;
+
+    z-index:3;
+
+    pointer-events:none;
+}
+
+@keyframes frameGlow{
+
+    from{
+        box-shadow:
+            inset 0 0 40px rgba(216,179,106,.06),
+            0 0 20px rgba(216,179,106,.04);
+    }
+
+    to{
+        box-shadow:
+            inset 0 0 80px rgba(216,179,106,.18),
+            0 0 45px rgba(216,179,106,.13);
+    }
+
+}
+
+/* =========================================================
+   الرسالة — ملء الشاشة بالكامل
+========================================================= */
+
+.envelope{
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    cursor:pointer;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    animation:
+        envelopeGlow 3.5s ease-in-out infinite alternate;
+
+    filter:
+        drop-shadow(
+            0 25px 45px rgba(0,0,0,.6)
+        );
+
+    z-index:1;
+}
+
+@keyframes envelopeGlow{
+
+    from{
+        filter:
+            drop-shadow(
+                0 20px 40px rgba(0,0,0,.6)
+            )
+            drop-shadow(
+                0 0 0 rgba(216,179,106,0)
+            );
+    }
+
+    to{
+        filter:
+            drop-shadow(
+                0 20px 40px rgba(0,0,0,.6)
+            )
+            drop-shadow(
+                0 0 25px rgba(216,179,106,.25)
+            );
+    }
+
+}
+
+.envelope img{
+
+    display:block;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:0;
+
+}
+
+/* =========================================================
+   ضوء يمر ببطء على الرسالة
+========================================================= */
+
+.envelope::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:45%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.20),
+            transparent
+        );
+
+    transform:skewX(-20deg);
+
+    animation:
+        shine 6s ease-in-out infinite;
+
+    pointer-events:none;
+
+}
+
+@keyframes shine{
+
+    0%,65%{
+        left:-120%;
+    }
+
+    100%{
+        left:160%;
+    }
+
+}
+
+.opening-text{
+
+    position:absolute;
+
+    bottom:8%;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    white-space:nowrap;
+
+    color:#f5e5c1;
+
+    font-size:.9rem;
+
+    text-shadow:
+        0 2px 12px #000;
+
+    animation:
+        textPulse 2.5s ease-in-out infinite;
+
+    z-index:5;
+
+}
+
+@keyframes textPulse{
+
+    0%,100%{
+        opacity:.45;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+#main{
+    display:none;
+    position:relative;
+    min-height:100vh;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section{
+
+    position:relative;
+
+    width:100%;
+
+    padding:
+        34px
+        14px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.section + .section{
+    padding-top:22px;
+}
+
+/* =========================================================
+   GLASS
+========================================================= */
+
+.glass{
+
+    position:relative;
+
+    width:min(900px,100%);
+
+    padding:
+        clamp(26px,5vw,55px)
+        clamp(18px,5vw,50px);
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.13),
+            rgba(255,255,255,.055)
+        );
+
+    border:
+        1px solid var(--border);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.13);
+
+    text-align:center;
+
+    overflow:hidden;
+
+}
+
+.glass::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.4),
+            transparent
+        );
+
+    opacity:.6;
+
+}
+
+/* =========================================================
+   ORNAMENT
+========================================================= */
+
+.ornament{
+
+    color:var(--gold-light);
+
+    font-size:22px;
+
+    letter-spacing:10px;
+
+    margin-bottom:15px;
+
+    opacity:.85;
+
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.bismillah{
+
+    font-family:"Amiri",serif;
+
+    font-size:
+        clamp(2rem,5vw,3.3rem);
+
+    color:var(--cream);
+
+    margin-bottom:18px;
+
+    text-shadow:
+        0 3px 18px rgba(0,0,0,.4);
+
+}
+
+.quran{
+
+    font-family:"Amiri",serif;
+
+    font-size:
+        clamp(1.35rem,3.7vw,2.15rem);
+
+    line-height:2;
+
+    color:#fff8ec;
+
+    max-width:780px;
+
+    margin:auto;
+
+    text-shadow:
+        0 2px 15px rgba(0,0,0,.5);
+
+}
+
+.welcome{
+
+    margin-top:20px;
+
+    color:#eadcc8;
+
+    line-height:2.2;
+
+    font-size:
+        clamp(.95rem,2.3vw,1.15rem);
+
+}
+
+.names{
+
+    font-family:"Amiri",serif;
+
+    font-size:
+        clamp(3.2rem,9vw,6rem);
+
+    line-height:1.2;
+
+    color:#fff8ed;
+
+    margin:20px 0;
+
+    text-shadow:
+        0 3px 20px rgba(0,0,0,.5),
+        0 0 25px rgba(216,179,106,.15);
+
+}
+
+.names span{
+
+    color:var(--gold-light);
+
+    font-size:.65em;
+
+    margin:0 8px;
+
+}
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.section-title{
+
+    font-family:"Amiri",serif;
+
+    color:var(--cream);
+
+    font-size:
+        clamp(2.2rem,5vw,3.5rem);
+
+    margin-bottom:10px;
+
+}
+
+.date-image{
+
+    width:100%;
+
+    max-height:430px;
+
+    object-fit:cover;
+
+    border-radius:23px;
+
+    display:block;
+
+    margin-bottom:20px;
+
+    border:
+        1px solid rgba(255,235,190,.2);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.35);
+
+}
+
+.date-text{
+
+    color:var(--gold-light);
+
+    font-weight:700;
+
+    font-size:1.15rem;
+
+    margin-bottom:25px;
+
+}
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+.countdown{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:9px;
+
+    width:100%;
+
+}
+
+.counter{
+
+    padding:16px 7px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid rgba(255,235,190,.2);
+
+    backdrop-filter:blur(10px);
+
+}
+
+.counter strong{
+
+    display:block;
+
+    color:#fff;
+
+    font-size:
+        clamp(1.7rem,5vw,2.8rem);
+
+    line-height:1;
+
+}
+
+.counter span{
+
+    display:block;
+
+    color:#ddcdb4;
+
+    font-size:.75rem;
+
+    margin-top:8px;
+
+}
+
+/* =========================================================
+   VENUE
+========================================================= */
+
+.venue-image{
+
+    width:100%;
+
+    max-height:450px;
+
+    object-fit:cover;
+
+    border-radius:23px;
+
+    margin:10px 0 20px;
+
+    border:
+        1px solid rgba(255,235,190,.2);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.4);
+
+}
+
+.venue-name{
+
+    font-family:"Amiri",serif;
+
+    color:#fff8ed;
+
+    font-size:
+        clamp(2rem,5vw,3rem);
+
+    margin-bottom:4px;
+
+}
+
+.venue-address{
+
+    color:#d9cbb8;
+
+    margin-bottom:20px;
+
+}
+
+.map-button{
+
+    display:inline-flex;
+
+    justify-content:center;
+    align-items:center;
+
+    width:min(400px,100%);
+
+    padding:14px 25px;
+
+    border-radius:999px;
+
+    color:#1b1308;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3dda8,
+            #c89e50
+        );
+
+    font-weight:800;
+
+    text-decoration:none;
+
+    transition:
+        transform .25s,
+        box-shadow .25s;
+
+}
+
+.map-button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.35);
+
+}
+
+/* =========================================================
+   GALLERY
+========================================================= */
+
+.gallery-wrapper{
+
+    overflow:hidden;
+
+    width:100%;
+
+    position:relative;
+
+}
+
+.gallery{
+
+    display:flex;
+
+    gap:12px;
+
+    overflow-x:auto;
+
+    scroll-behavior:smooth;
+
+    scrollbar-width:none;
+
+    cursor:grab;
+
+    padding:8px 2px 15px;
+
+}
+
+.gallery::-webkit-scrollbar{
+    display:none;
+}
+
+.gallery img{
+
+    flex:
+        0 0
+        clamp(230px,70vw,310px);
+
+    height:
+        clamp(280px,70vw,390px);
+
+    object-fit:cover;
+
+    border-radius:22px;
+
+    border:
+        1px solid rgba(255,235,190,.22);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.35);
+
+    transition:
+        transform .4s,
+        filter .4s;
+
+}
+
+.gallery img:hover{
+
+    transform:scale(1.025);
+
+    filter:
+        brightness(1.08);
+
+}
+
+.gallery-hint{
+
+    color:#cdbda7;
+
+    font-size:.8rem;
+
+    margin-top:5px;
+
+}
+
+/* =========================================================
+   STORY
+========================================================= */
+
+.story-text{
+
+    font-family:"Amiri",serif;
+
+    color:#f5ead9;
+
+    font-size:
+        clamp(1.15rem,3vw,1.45rem);
+
+    line-height:2.1;
+
+    max-width:750px;
+
+    margin:0 auto 25px;
+
+}
+
+.story-video{
+
+    width:100%;
+
+    max-height:600px;
+
+    border-radius:24px;
+
+    display:block;
+
+    object-fit:cover;
+
+    background:#080606;
+
+    border:
+        1px solid rgba(255,235,190,.2);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.4);
+
+}
+
+/* =========================================================
+   SPECIAL INSTRUCTIONS
+========================================================= */
+
+.instructions{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:15px;
+
+    margin-top:15px;
+
+}
+
+.instruction{
+
+    padding:28px 15px;
+
+    border-radius:24px;
+
+    background:
+        rgba(255,255,255,.065);
+
+    border:
+        1px solid rgba(255,235,190,.2);
+
+    backdrop-filter:blur(10px);
+
+    transition:
+        transform .3s,
+        background .3s;
+
+}
+
+.instruction:hover{
+
+    transform:translateY(-4px);
+
+    background:
+        rgba(255,255,255,.10);
+
+}
+
+.instruction-icon{
+
+    width:72px;
+    height:72px;
+
+    margin:0 auto 13px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:32px;
+
+    color:var(--gold-light);
+
+    border:
+        1px solid rgba(243,221,168,.4);
+
+    background:
+        rgba(0,0,0,.18);
+
+    box-shadow:
+        0 0 25px rgba(216,179,106,.08);
+
+}
+
+.instruction h3{
+
+    font-family:"Amiri",serif;
+
+    color:#fff8ed;
+
+    font-size:1.6rem;
+
+    margin-bottom:5px;
+
+}
+
+.instruction p{
+
+    color:#d7c9b5;
+
+    font-size:.9rem;
+
+}
+
+/* =========================================================
+   RSVP
+========================================================= */
+
+.rsvp-text{
+
+    color:#dcd0be;
+
+    line-height:2;
+
+    margin-bottom:22px;
+
+}
+
+.rsvp-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.rsvp-input{
+
+    width:100%;
+
+    padding:15px 18px;
+
+    border-radius:17px;
+
+    border:
+        1px solid rgba(255,235,190,.22);
+
+    outline:none;
+
+    color:white;
+
+    background:
+        rgba(255,255,255,.07);
+
+    backdrop-filter:blur(10px);
+
+}
+
+.rsvp-input::placeholder{
+
+    color:rgba(255,245,230,.6);
+
+}
+
+.rsvp-input:focus{
+
+    border-color:
+        rgba(243,221,168,.65);
+
+}
+
+.rsvp-button{
+
+    border:0;
+
+    padding:15px;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3dda8,
+            #c89e50
+        );
+
+    color:#1b1308;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:
+        transform .25s;
+
+}
+
+.rsvp-button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+#rsvpStatus{
+
+    min-height:28px;
+
+    margin-top:12px;
+
+    color:var(--gold-light);
+
+    font-weight:700;
+
+}
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+.final-title{
+
+    font-family:"Amiri",serif;
+
+    color:#fff8ed;
+
+    font-size:
+        clamp(2.2rem,6vw,3.8rem);
+
+    margin-bottom:12px;
+
+}
+
+.final-text{
+
+    color:#ddcfbb;
+
+    line-height:2;
+
+    margin-bottom:20px;
+
+}
+
+.signature{
+
+    font-family:"Amiri",serif;
+
+    color:var(--gold-light);
+
+    font-size:2.3rem;
+
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    text-align:center;
+
+    padding:
+        30px
+        20px
+        70px;
+
+    background:
+        rgba(8,5,5,.55);
+
+    border-top:
+        1px solid rgba(255,235,190,.12);
+
+    color:#cdbda7;
+
+}
+
+footer strong{
+
+    font-family:"Amiri",serif;
+
+    color:#fff4df;
+
+    font-size:1.4rem;
+
+}
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+#musicButton{
+
+    position:fixed;
+
+    top:18px;
+    left:18px;
+
+    z-index:3000;
+
+    width:50px;
+    height:50px;
+
+    border-radius:50%;
+
+    border:
+        1px solid rgba(255,235,190,.3);
+
+    background:
+        rgba(20,15,15,.55);
+
+    backdrop-filter:blur(12px);
+
+    color:var(--gold-light);
+
+    cursor:pointer;
+
+    display:none;
+
+}
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal{
+
+    opacity:0;
+
+    transform:
+        translateY(20px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+
+}
+
+.reveal.visible{
+
+    opacity:1;
+
+    transform:none;
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:650px){
+
+    .section{
+
+        padding:
+            25px
+            10px;
+
+    }
+
+    .section + .section{
+
+        padding-top:15px;
+
+    }
+
+    .glass{
+
+        padding:
+            25px
+            15px;
+
+        border-radius:24px;
+
+    }
+
+    .countdown{
+
+        gap:6px;
+
+    }
+
+    .counter{
+
+        padding:14px 4px;
+
+    }
+
+    .counter strong{
+
+        font-size:1.65rem;
+
+    }
+
+    .counter span{
+
+        font-size:.68rem;
+
+    }
+
+    .instructions{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .gallery img{
+
+        flex-basis:76vw;
+
+        height:95vw;
+
+    }
+
+    .opening-frame{
+
+        inset:12px;
+
+    }
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation:none!important;
+
+        transition:none!important;
+
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     BACKGROUND VIDEO
+===================================================== -->
+
+<video
+    id="backgroundVideo"
+    autoplay
+    muted
+    loop
+    playsinline>
+
+    <source src="background.mp4" type="video/mp4">
+
+</video>
+
+<div class="video-overlay"></div>
+<div class="video-glow"></div>
+
+
+<!-- =====================================================
+     MUSIC
+===================================================== -->
+
+<audio
+    id="music"
+    loop
+    preload="auto">
+
+    <source
+        src="music.mp3"
+        type="audio/mpeg">
+
+</audio>
+
+
+<!-- =====================================================
+     OPENING
+===================================================== -->
+
+<div id="opening">
+
+    <div class="opening-frame"></div>
+
+    <div
+        class="envelope"
+        id="envelope">
+
+        <img
+            src="cover.jpg"
+            alt="دعوة الزفاف">
+
+    </div>
+
+    <div class="opening-text">
+        اضغط على الرسالة لفتح الدعوة
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MUSIC BUTTON
+===================================================== -->
+
+<button
+    id="musicButton"
+    type="button">
+
+    ♫
+
+</button>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main id="main">
+
+
+<!-- =====================================================
+     SECTION 1 — INTRO
+===================================================== -->
+
+<section class="section">
+
+<div class="glass reveal">
+
+    <div class="ornament">
+        ✦ ✦ ✦
+    </div>
+
+    <h1 class="bismillah">
+        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ
+    </h1>
+
+    <p class="quran">
+
+        ﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم
+        مِّنْ أَنفُسِكُمْ أَزْوَاجًا
+        لِّتَسْكُنُوا إِلَيْهَا
+        وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+        ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ
+        لِّقَوْمٍ يَتَفَكَّرُونَ ﴾
+
+    </p>
+
+    <div class="names">
+        أسامة
+        <span>♡</span>
+        مروة
+    </div>
+
+    <p class="welcome">
+
+        بكل الحب والفرح، يسعدنا أن نشارككم
+        أجمل لحظات حياتنا، وندعوكم لمشاركتنا
+        فرحة اجتماع قلبين على المودة والمحبة.
+
+        حضوركم معنا يجعل فرحتنا أجمل،
+        وذكرياتنا أكثر دفئًا وجمالًا.
+
+    </p>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SECTION 2 — DATE
+===================================================== -->
+
+<section class="section">
+
+<div class="glass reveal">
+
+    <div class="ornament">
+        ✧
+    </div>
+
+    <h2 class="section-title">
+        موعد فرحتنا
+    </h2>
+
+    <img
+        src="date.jpg"
+        class="date-image"
+        alt="موعد الزفاف">
+
+    <p class="date-text">
+        السبت 26 ديسمبر 2026 — الساعة 14:00
+    </p>
+
+    <div
+        class="countdown"
+        id="countdown">
+
+        <div class="counter">
+
+            <strong id="days">
+                00
+            </strong>
+
+            <span>
+                يوم
+            </span>
+
+        </div>
+
+        <div class="counter">
+
+            <strong id="hours">
+                00
+            </strong>
+
+            <span>
+                ساعة
+            </span>
+
+        </div>
+
+        <div class="counter">
+
+            <strong id="minutes">
+                00
+            </strong>
+
+            <span>
+                دقيقة
+            </span>
+
+        </div>
+
+        <div class="counter">
+
+            <strong id="seconds">
+                00
+            </strong>
+
+            <span>
+                ثانية
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SECTION 3 — VENUE
+===================================================== -->
+
+<section class="section">
+
+<div class="glass reveal">
+
+    <div class="ornament">
+        ✦
+    </div>
+
+    <h2 class="section-title">
+        مكان الحفل
+    </h2>
+
+    <img
+        src="venue.jpg"
+        class="venue-image"
+        alt="قاعة الزفاف">
+
+    <h3 class="venue-name">
+        قاعة حفل الزفاف
+    </h3>
+
+    <p class="venue-address">
+        يسعدنا استقبالكم ومشاركتنا هذه المناسبة الجميلة.
+    </p>
+
+    <a
+        class="map-button"
+        href="https://maps.app.goo.gl/RA9o4J99SRkCLMqf8"
+        target="_blank"
+        rel="noopener">
+
+        📍 فتح الموقع على Google Maps
+
+    </a>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SECTION 4 — GALLERY
+===================================================== -->
+
+<section class="section">
+
+<div class="glass reveal">
+
+    <div class="ornament">
+        ♡ ✦ ♡
+    </div>
+
+    <h2 class="section-title">
+        معرض الصور
+    </h2>
+
+    <p class="welcome">
+        بعض اللحظات الجميلة التي نشارككم إياها 🤍
+    </p>
+
+    <div class="gallery-wrapper">
+
+        <div
+            class="gallery"
+            id="gallery">
+
+            <img
+                src="gallery1.jpg"
+                alt="صورة 1">
+
+            <img
+                src="gallery2.jpg"
+                alt="صورة 2">
+
+            <img
+                src="gallery3.jpg"
+                alt="صورة 3">
+
+            <img
+                src="gallery4.jpg"
+                alt="صورة 4">
+
+            <img
+                src="gallery5.jpg"
+                alt="صورة 5">
+
+            <img
+                src="gallery6.jpg"
+                alt="صورة 6">
+
+        </div>
+
+    </div>
+
+    <div class="gallery-hint">
+        اسحب الصور يمينًا ويسارًا
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SECTION 5 — STORY
+===================================================== -->
+
+<section class="section">
+
+<div class="glass reveal">
+
+    <div class="ornament">
+        ♡
+    </div>
+
+    <h2 class="section-title">
+        قصتنا
+    </h2>
+
+    <p class="story-text">
+
+        بدأت الحكاية بلقاء جمع بين قلبين،
+        ثم كبرت الأيام بينهما بالمحبة
+        والتفاهم والدعاء.
+
+        ومع كل لحظة جميلة، أصبح الطريق
+        أقرب إلى أن يجمعهما في بيت واحد،
+        ليكتبا معًا فصلًا جديدًا من حياتهما.
+
+        واليوم، بكل فرح وامتنان،
+        نحتفل ببداية أجمل حكاياتنا...
+
+        <br>
+
+        <strong>
+            أسامة و مروة 🤍
+        </strong>
+
+    </p>
+
+    <video
+        class="story-video"
+        controls
+        playsinline
+        preload="metadata">
+
+        <source
+            src="story.mp4"
+            type="video/mp4">
+
+    </video>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SECTION 6 — SPECIAL INSTRUCTIONS
+===================================================== -->
+
+<section class="section">
+
+<div class="glass reveal">
+
+    <div class="ornament">
+        ⚠ ✦ ⚠
+    </div>
+
+    <h2 class="section-title">
+        تعليمات خاصة
+    </h2>
+
+    <p class="welcome">
+        حرصًا على خصوصية وجمال هذه المناسبة،
+        نرجو منكم الالتزام بالتعليمات التالية.
+    </p>
+
+    <div class="instructions">
+
+        <div class="instruction">
+
+            <div class="instruction-icon">
+                📷
+            </div>
+
+            <h3>
+                ممنوع التصوير
+            </h3>
+
+            <p>
+                نرجو منكم لطفًا عدم التقاط الصور
+                أو تسجيل الفيديوهات أثناء الحفل.
+            </p>
+
+        </div>
+
+        <div class="instruction">
+
+            <div class="instruction-icon">
+                👶
+            </div>
+
+            <h3>
+                ممنوع اصطحاب الأطفال
+            </h3>
+
+            <p>
+                نرجو حضوركم دون اصطحاب الأطفال،
+                مع خالص محبتنا وتقديرنا لتفهمكم.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SECTION 7 — RSVP
+===================================================== -->
+
+<section class="section">
+
+<div class="glass reveal">
+
+    <div class="ornament">
+        💌
+    </div>
+
+    <h2 class="section-title">
+        تأكيد الحضور
+    </h2>
+
+    <p class="rsvp-text">
+
+        حضوركم يسعدنا كثيرًا،
+        لذلك نرجو تأكيد حضوركم من خلال النموذج التالي.
+
+    </p>
+
+    <div class="rsvp-form">
+
+        <input
+            id="guestName"
+            class="rsvp-input"
+            type="text"
+            placeholder="الاسم الكامل"
+            maxlength="100">
+
+        <input
+            id="guestCount"
+            class="rsvp-input"
+            type="number"
+            min="1"
+            max="20"
+            placeholder="عدد الأشخاص">
+
+        <button
+            id="rsvpButton"
+            class="rsvp-button"
+            type="button">
+
+            تأكيد الحضور 🤍
+
+        </button>
+
+    </div>
+
+    <div id="rsvpStatus"></div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FINAL
+===================================================== -->
+
+<section class="section">
+
+<div class="glass reveal">
+
+    <div class="ornament">
+        ♡ ✦ ♡
+    </div>
+
+    <h2 class="final-title">
+        ننتظر حضوركم بكل حب
+    </h2>
+
+    <p class="final-text">
+
+        فرحتنا لا تكتمل إلا بوجودكم معنا،
+        ونتمنى أن يكون هذا اليوم ذكرى جميلة
+        تبقى في قلوبنا جميعًا.
+
+    </p>
+
+    <div class="signature">
+        أسامة و مروة
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <strong>
+        صُنع بكل حب 🤍
+    </strong>
+
+    <div style="margin-top:8px;font-size:.82rem">
+        أسامة و مروة
+    </div>
+
+</footer>
+
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const opening =
+    document.getElementById("opening");
+
+const envelope =
+    document.getElementById("envelope");
+
+const main =
+    document.getElementById("main");
+
+const music =
+    document.getElementById("music");
+
+const musicButton =
+    document.getElementById("musicButton");
+
+
+/* =========================================================
+   OPEN INVITATION
+========================================================= */
+
+envelope.addEventListener(
+    "click",
+    openInvitation
+);
+
+
+function openInvitation(){
+
+    opening.classList.add("open");
+
+    main.style.display = "block";
+
+    musicButton.style.display = "block";
+
+    music.volume = .25;
+
+    music.play().catch(()=>{});
+
+    setTimeout(()=>{
+
+        opening.style.display = "none";
+
+        initReveal();
+
+    },1500);
+
+}
+
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+let musicPlaying = false;
+
+
+musicButton.addEventListener(
+    "click",
+    async()=>{
+
+        if(musicPlaying){
+
+            music.pause();
+
+            musicPlaying = false;
+
+            musicButton.textContent = "♫";
+
+        }else{
+
+            try{
+
+                await music.play();
+
+                musicPlaying = true;
+
+                musicButton.textContent = "◼";
+
+            }catch(e){}
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+const weddingDate =
+    new Date(
+        2026,
+        11,
+        26,
+        14,
+        0,
+        0
+    ).getTime();
+
+
+function updateCountdown(){
+
+    const now =
+        Date.now();
+
+    const distance =
+        weddingDate - now;
+
+
+    if(distance <= 0){
+
+        document.getElementById(
+            "countdown"
+        ).innerHTML =
+
+        `<div style="
+            grid-column:1/-1;
+            font-family:Amiri,serif;
+            font-size:1.7rem;
+            color:#fff8ed;
+        ">
+            أهلًا بكم في فرحتنا 🤍
+        </div>`;
+
+        return;
+
+    }
+
+
+    const days =
+        Math.floor(
+            distance /
+            (1000*60*60*24)
+        );
+
+
+    const hours =
+        Math.floor(
+            (distance %
+            (1000*60*60*24)) /
+            (1000*60*60)
+        );
+
+
+    const minutes =
+        Math.floor(
+            (distance %
+            (1000*60*60)) /
+            (1000*60)
+        );
+
+
+    const seconds =
+        Math.floor(
+            (distance %
+            (1000*60)) /
+            1000
+        );
+
+
+    document.getElementById("days")
+        .textContent =
+        String(days).padStart(2,"0");
+
+
+    document.getElementById("hours")
+        .textContent =
+        String(hours).padStart(2,"0");
+
+
+    document.getElementById("minutes")
+        .textContent =
+        String(minutes).padStart(2,"0");
+
+
+    document.getElementById("seconds")
+        .textContent =
+        String(seconds).padStart(2,"0");
+
+}
+
+
+updateCountdown();
+
+setInterval(
+    updateCountdown,
+    1000
+);
+
+
+/* =========================================================
+   REVEAL ANIMATION
+========================================================= */
+
+function initReveal(){
+
+    const elements =
+        document.querySelectorAll(
+            ".reveal"
+        );
+
+
+    const observer =
+        new IntersectionObserver(
+
+            entries=>{
+
+                entries.forEach(
+                    entry=>{
+
+                        if(
+                            entry.isIntersecting
+                        ){
+
+                            entry.target
+                                .classList
+                                .add("visible");
+
+                            observer.unobserve(
+                                entry.target
+                            );
+
+                        }
+
+                    }
+                );
+
+            },
+
+            {
+                threshold:.10
+            }
+
+        );
+
+
+    elements.forEach(
+        element =>
+            observer.observe(element)
+    );
+
+}
+
+
+/* =========================================================
+   GALLERY DRAG
+========================================================= */
+
+const gallery =
+    document.getElementById("gallery");
+
+let isDown = false;
+
+let startX;
+
+let scrollLeft;
+
+
+gallery.addEventListener(
+    "mousedown",
+    e=>{
+
+        isDown = true;
+
+        gallery.style.cursor =
+            "grabbing";
+
+        startX =
+            e.pageX -
+            gallery.offsetLeft;
+
+        scrollLeft =
+            gallery.scrollLeft;
+
+    }
+);
+
+
+gallery.addEventListener(
+    "mouseleave",
+    ()=>{
+
+        isDown = false;
+
+        gallery.style.cursor =
+            "grab";
+
+    }
+);
+
+
+gallery.addEventListener(
+    "mouseup",
+    ()=>{
+
+        isDown = false;
+
+        gallery.style.cursor =
+            "grab";
+
+    }
+);
+
+
+gallery.addEventListener(
+    "mousemove",
+    e=>{
+
+        if(!isDown) return;
+
+        e.preventDefault();
+
+        const x =
+            e.pageX -
+            gallery.offsetLeft;
+
+        const walk =
+            (x-startX)*1.4;
+
+        gallery.scrollLeft =
+            scrollLeft-walk;
+
+    }
+);
+
+
+/* =========================================================
+   TOUCH SWIPE
+========================================================= */
+
+let touchStartX = 0;
+
+
+gallery.addEventListener(
+    "touchstart",
+    e=>{
+
+        touchStartX =
+            e.touches[0].clientX;
+
+    },
+    {passive:true}
+);
+
+
+gallery.addEventListener(
+    "touchmove",
+    e=>{
+
+        const currentX =
+            e.touches[0].clientX;
+
+        const difference =
+            touchStartX-currentX;
+
+        gallery.scrollLeft +=
+            difference*.35;
+
+        touchStartX =
+            currentX;
+
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   AUTO GALLERY
+========================================================= */
+
+let galleryDirection = 1;
+
+
+setInterval(()=>{
+
+    if(
+        gallery.scrollWidth <=
+        gallery.clientWidth
+    ) return;
+
+
+    const maxScroll =
+        gallery.scrollWidth -
+        gallery.clientWidth;
+
+
+    if(
+        gallery.scrollLeft >=
+        maxScroll-5
+    ){
+
+        galleryDirection = -1;
+
+    }
+
+
+    if(
+        gallery.scrollLeft <= 5
+    ){
+
+        galleryDirection = 1;
+
+    }
+
+
+    gallery.scrollBy({
+
+        left:
+            galleryDirection*1.2,
+
+        behavior:"auto"
+
+    });
+
+},40);
+
+
+/* =========================================================
+   RSVP
+========================================================= */
+
+const RSVP_SCRIPT_URL = "";
+
+
+const rsvpButton =
+    document.getElementById(
+        "rsvpButton"
+    );
+
+const rsvpStatus =
+    document.getElementById(
+        "rsvpStatus"
+    );
+
+
+rsvpButton.addEventListener(
+    "click",
+    async()=>{
+
+        const name =
+            document
+            .getElementById("guestName")
+            .value
+            .trim();
+
+
+        const count =
+            document
+            .getElementById("guestCount")
+            .value
+            .trim();
+
+
+        if(!name){
+
+            rsvpStatus.textContent =
+                "يرجى كتابة الاسم 🤍";
+
+            return;
+
+        }
+
+
+        if(!count){
+
+            rsvpStatus.textContent =
+                "يرجى كتابة عدد الأشخاص 🤍";
+
+            return;
+
+        }
+
+
+        if(!RSVP_SCRIPT_URL){
+
+            rsvpStatus.textContent =
+                "تم تسجيل طلبك، وسيتم تفعيل الإرسال قريبًا 🤍";
+
+            return;
+
+        }
+
+
+        rsvpButton.disabled = true;
+
+        rsvpButton.textContent =
+            "جاري الإرسال...";
+
+
+        try{
+
+            const response =
+                await fetch(
+                    RSVP_SCRIPT_URL,
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                            "text/plain;charset=utf-8"
+                        },
+
+                        body:
+                        JSON.stringify({
+
+                            type:"rsvp",
+
+                            name:name,
+
+                            count:count
+
+                        })
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if(result.success){
+
+                rsvpStatus.textContent =
+                    "تم تأكيد حضوركم بنجاح 🤍";
+
+                document
+                    .getElementById("guestName")
+                    .value = "";
+
+                document
+                    .getElementById("guestCount")
+                    .value = "";
+
+            }else{
+
+                throw new Error();
+
+            }
+
+        }catch(error){
+
+            rsvpStatus.textContent =
+                "تعذر إرسال التأكيد، حاول مرة أخرى.";
+
+        }
+
+
+        rsvpButton.disabled =
+            false;
+
+        rsvpButton.textContent =
+            "تأكيد الحضور 🤍";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
