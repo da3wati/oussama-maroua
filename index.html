@@ -609,49 +609,53 @@ img{
 
 /* =========================================================
    GALLERY
+   التعديل الوحيد هنا:
+   معرض دائري لا نهائي + 3 صور ظاهرة + لمس وسحب
 ========================================================= */
 
 .gallery-wrapper{
-    overflow:hidden;
-
     width:100%;
-
     position:relative;
+    overflow:hidden;
+    padding:8px 0 15px;
 }
 
 .gallery{
     display:flex;
-
     gap:12px;
 
-    overflow-x:auto;
-
-    scroll-behavior:auto;
-
-    scrollbar-width:none;
-
-    cursor:grab;
-
-    padding:8px 2px 15px;
-
-    touch-action:pan-y;
+    width:max-content;
 
     direction:ltr;
 
-    -webkit-overflow-scrolling:touch;
+    cursor:grab;
+
+    user-select:none;
+
+    -webkit-user-select:none;
+
+    touch-action:pan-y;
+
+    will-change:transform;
+
+    transition:transform .45s ease;
 }
 
-.gallery::-webkit-scrollbar{
-    display:none;
+.gallery.dragging{
+    cursor:grabbing;
+    transition:none;
 }
 
 .gallery img{
-    flex:
-        0 0
-        clamp(230px,70vw,310px);
+    flex:0 0 calc(
+        (min(900px,100vw) - 118px) / 3
+    );
 
-    height:
-        clamp(280px,70vw,390px);
+    width:calc(
+        (min(900px,100vw) - 118px) / 3
+    );
+
+    height:390px;
 
     object-fit:cover;
 
@@ -667,11 +671,9 @@ img{
         transform .4s,
         filter .4s;
 
-    user-select:none;
+    pointer-events:none;
 
     -webkit-user-drag:none;
-
-    pointer-events:auto;
 }
 
 .gallery img:hover{
@@ -1055,9 +1057,24 @@ footer strong{
         grid-template-columns:1fr;
     }
 
+    /* ثلاث صور ظاهرة في الهاتف */
+    .gallery{
+        gap:8px;
+    }
+
     .gallery img{
-        flex-basis:76vw;
-        height:95vw;
+        flex-basis:calc(
+            (100vw - 58px) / 3
+        );
+
+        width:calc(
+            (100vw - 58px) / 3
+        );
+
+        height:110vw;
+        max-height:390px;
+
+        border-radius:16px;
     }
 
     .opening-text{
@@ -1385,7 +1402,7 @@ footer strong{
     </div>
 
     <div class="gallery-hint">
-        اسحب الصور يمينًا ويسارًا
+        اسحب الصور يمينًا ويسارًا 🤍
     </div>
 
 </div>
@@ -1430,7 +1447,7 @@ footer strong{
 
     </p>
 
-    <!-- الفيديو يعمل تلقائيًا وبدون صوت -->
+    <!-- الفيديو يتكرر تلقائيًا وبدون صوت -->
 
     <video
         class="story-video"
@@ -1670,23 +1687,6 @@ function openInvitation(){
 
     music.play().catch(()=>{});
 
-    /* تشغيل فيديو القصة تلقائيًا وبدون صوت */
-    const storyVideo =
-        document.getElementById("storyVideo");
-
-    if(storyVideo){
-
-        storyVideo.muted = true;
-
-        storyVideo.setAttribute(
-            "muted",
-            ""
-        );
-
-        storyVideo.play().catch(()=>{});
-
-    }
-
     setTimeout(()=>{
 
         opening.style.display = "none";
@@ -1879,25 +1879,273 @@ function initReveal(){
 
 /* =========================================================
    GALLERY
-   حركة تلقائية ناعمة من اليمين إلى اليسار
-   مع الحفاظ على اللمس والسحب
+   معرض دائري لا نهائي
+   3 صور ظاهرة في الواجهة
+   حركة تلقائية + لمس وسحب
 ========================================================= */
 
 const gallery =
     document.getElementById("gallery");
 
-let isDown = false;
+const originalImages =
+    Array.from(
+        gallery.querySelectorAll("img")
+    );
 
-let startX = 0;
+/*
+   نكرر الصور ثلاث مرات حتى تصبح الحركة
+   دائرية بدون توقف أو فراغ.
+*/
 
-let scrollLeft = 0;
+originalImages.forEach(img=>{
+    const clone = img.cloneNode(true);
+    gallery.appendChild(clone);
+});
 
-let userInteracting = false;
+originalImages.forEach(img=>{
+    const clone = img.cloneNode(true);
+    gallery.appendChild(clone);
+});
 
 
-/* سرعة الحركة */
+let galleryPosition = 0;
 
-const autoSpeed = 0.35;
+let gallerySpeed = 0.35;
+
+let galleryDragging = false;
+
+let galleryStartX = 0;
+
+let galleryStartPosition = 0;
+
+let galleryLastTime = 0;
+
+let galleryAuto = true;
+
+
+/* =========================================================
+   GET IMAGE WIDTH
+========================================================= */
+
+function getGalleryStep(){
+
+    const image =
+        gallery.querySelector("img");
+
+    if(!image) return 0;
+
+    const style =
+        window.getComputedStyle(gallery);
+
+    const gap =
+        parseFloat(style.gap) || 0;
+
+    return image.getBoundingClientRect().width + gap;
+}
+
+
+/* =========================================================
+   INITIAL POSITION
+========================================================= */
+
+function setupGallery(){
+
+    const step =
+        getGalleryStep();
+
+    if(!step) return;
+
+    /*
+       نبدأ من المجموعة الوسطى.
+    */
+
+    galleryPosition =
+        step * originalImages.length;
+
+    gallery.style.transform =
+        `translate3d(${-galleryPosition}px,0,0)`;
+
+}
+
+window.addEventListener(
+    "load",
+    setupGallery
+);
+
+window.addEventListener(
+    "resize",
+    setupGallery
+);
+
+
+/* =========================================================
+   INFINITE LOOP
+========================================================= */
+
+function normalizeGallery(){
+
+    const step =
+        getGalleryStep();
+
+    if(!step) return;
+
+    const groupWidth =
+        step * originalImages.length;
+
+    /*
+       إذا وصلنا للمجموعة الثالثة،
+       نرجع إلى المجموعة الثانية.
+    */
+
+    if(
+        galleryPosition >=
+        groupWidth * 2
+    ){
+
+        galleryPosition -= groupWidth;
+
+    }
+
+    /*
+       إذا رجعنا للمجموعة الأولى،
+       ننتقل للمجموعة الثانية.
+    */
+
+    if(
+        galleryPosition < 0
+    ){
+
+        galleryPosition += groupWidth;
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTOMATIC MOVEMENT
+========================================================= */
+
+function animateGallery(time){
+
+    if(!galleryLastTime){
+        galleryLastTime = time;
+    }
+
+    const delta =
+        Math.min(
+            time - galleryLastTime,
+            40
+        );
+
+    galleryLastTime = time;
+
+    if(!galleryDragging && galleryAuto){
+
+        galleryPosition +=
+            gallerySpeed * delta / 16;
+
+        normalizeGallery();
+
+        gallery.style.transform =
+            `translate3d(${-galleryPosition}px,0,0)`;
+
+    }
+
+    requestAnimationFrame(
+        animateGallery
+    );
+
+}
+
+requestAnimationFrame(
+    animateGallery
+);
+
+
+/* =========================================================
+   TOUCH START
+========================================================= */
+
+gallery.addEventListener(
+    "touchstart",
+    e=>{
+
+        galleryDragging = true;
+
+        galleryAuto = false;
+
+        gallery.classList.add(
+            "dragging"
+        );
+
+        galleryStartX =
+            e.touches[0].clientX;
+
+        galleryStartPosition =
+            galleryPosition;
+
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   TOUCH MOVE
+========================================================= */
+
+gallery.addEventListener(
+    "touchmove",
+    e=>{
+
+        if(!galleryDragging) return;
+
+        const currentX =
+            e.touches[0].clientX;
+
+        const difference =
+            currentX - galleryStartX;
+
+        galleryPosition =
+            galleryStartPosition -
+            difference;
+
+        normalizeGallery();
+
+        gallery.style.transform =
+            `translate3d(${-galleryPosition}px,0,0)`;
+
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   TOUCH END
+========================================================= */
+
+gallery.addEventListener(
+    "touchend",
+    ()=>{
+
+        galleryDragging = false;
+
+        gallery.classList.remove(
+            "dragging"
+        );
+
+        /*
+           نترك الصور في مكانها ثم تعود
+           للحركة التلقائية بسلاسة.
+        */
+
+        setTimeout(()=>{
+            galleryAuto = true;
+        },900);
+
+    },
+    {passive:true}
+);
 
 
 /* =========================================================
@@ -1908,206 +2156,87 @@ gallery.addEventListener(
     "mousedown",
     e=>{
 
-        isDown = true;
+        galleryDragging = true;
 
-        userInteracting = true;
+        galleryAuto = false;
 
-        gallery.style.cursor =
-            "grabbing";
+        gallery.classList.add(
+            "dragging"
+        );
 
-        startX =
-            e.pageX -
-            gallery.offsetLeft;
+        galleryStartX =
+            e.clientX;
 
-        scrollLeft =
-            gallery.scrollLeft;
-
-    }
-);
-
-
-gallery.addEventListener(
-    "mouseleave",
-    ()=>{
-
-        isDown = false;
-
-        userInteracting = false;
-
-        gallery.style.cursor =
-            "grab";
-
-    }
-);
-
-
-gallery.addEventListener(
-    "mouseup",
-    ()=>{
-
-        isDown = false;
-
-        userInteracting = false;
-
-        gallery.style.cursor =
-            "grab";
-
-    }
-);
-
-
-gallery.addEventListener(
-    "mousemove",
-    e=>{
-
-        if(!isDown) return;
+        galleryStartPosition =
+            galleryPosition;
 
         e.preventDefault();
 
-        const x =
-            e.pageX -
-            gallery.offsetLeft;
-
-        const walk =
-            (x-startX) * 1.4;
-
-        gallery.scrollLeft =
-            scrollLeft - walk;
-
     }
 );
 
 
-/* =========================================================
-   TOUCH
-   تحسين السحب باللمس
-========================================================= */
-
-let touchStartX = 0;
-
-let touchLastX = 0;
-
-gallery.addEventListener(
-    "touchstart",
+window.addEventListener(
+    "mousemove",
     e=>{
 
-        userInteracting = true;
+        if(!galleryDragging) return;
 
-        touchStartX =
-            e.touches[0].clientX;
+        /*
+           لا نستخدم هذا أثناء اللمس.
+        */
 
-        touchLastX =
-            touchStartX;
-
-    },
-    {passive:true}
-);
-
-
-gallery.addEventListener(
-    "touchmove",
-    e=>{
-
-        const currentX =
-            e.touches[0].clientX;
+        if(
+            e.buttons === 0
+        ) return;
 
         const difference =
-            touchLastX - currentX;
+            e.clientX - galleryStartX;
 
-        gallery.scrollLeft +=
+        galleryPosition =
+            galleryStartPosition -
             difference;
 
-        touchLastX =
-            currentX;
+        normalizeGallery();
 
-    },
-    {passive:true}
-);
-
-
-gallery.addEventListener(
-    "touchend",
-    ()=>{
-
-        setTimeout(
-            ()=>{
-                userInteracting = false;
-            },
-            700
-        );
-
-    },
-    {passive:true}
-);
-
-
-/* =========================================================
-   AUTOMATIC GALLERY
-   من اليمين إلى اليسار بشكل مستمر وناعم
-========================================================= */
-
-function autoGallery(){
-
-    if(!userInteracting){
-
-        const maxScroll =
-            gallery.scrollWidth -
-            gallery.clientWidth;
-
-        if(maxScroll > 0){
-
-            /*
-             زيادة scrollLeft في اتجاه LTR
-             تجعل الصور تتحرك بصريًا
-             من اليمين إلى اليسار.
-            */
-
-            gallery.scrollLeft +=
-                autoSpeed;
-
-            /*
-             عند الوصول إلى النهاية
-             نعود إلى البداية بسلاسة.
-            */
-
-            if(
-                gallery.scrollLeft >=
-                maxScroll
-            ){
-
-                gallery.scrollLeft = 0;
-
-            }
-
-        }
+        gallery.style.transform =
+            `translate3d(${-galleryPosition}px,0,0)`;
 
     }
+);
 
-    requestAnimationFrame(
-        autoGallery
-    );
-}
 
-requestAnimationFrame(
-    autoGallery
+window.addEventListener(
+    "mouseup",
+    ()=>{
+
+        if(!galleryDragging) return;
+
+        galleryDragging = false;
+
+        gallery.classList.remove(
+            "dragging"
+        );
+
+        setTimeout(()=>{
+            galleryAuto = true;
+        },900);
+
+    }
 );
 
 
 /* =========================================================
    STORY VIDEO
-   تشغيل تلقائي + بدون صوت
+   بدون صوت + تشغيل تلقائي + تكرار مستمر
 ========================================================= */
 
 const storyVideo =
-    document.getElementById(
-        "storyVideo"
-    );
+    document.getElementById("storyVideo");
 
 if(storyVideo){
 
     storyVideo.muted = true;
-
-    storyVideo.defaultMuted = true;
 
     storyVideo.setAttribute(
         "muted",
@@ -2120,13 +2249,19 @@ if(storyVideo){
     );
 
     storyVideo.setAttribute(
-        "autoplay",
+        "loop",
         ""
     );
 
-    storyVideo.setAttribute(
-        "loop",
-        ""
+    storyVideo.addEventListener(
+        "ended",
+        ()=>{
+
+            storyVideo.currentTime = 0;
+
+            storyVideo.play().catch(()=>{});
+
+        }
     );
 
     storyVideo.play().catch(()=>{});
